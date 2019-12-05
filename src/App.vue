@@ -16,8 +16,8 @@
           width="40"
         />
 
-        <span class="logo1">ODALIS</span>
-        <span class="logo2">MOTORS</span>        
+        <span class="logo1">{{ logo.O }}</span>
+        <span class="logo2">{{ logo.M }}</span>        
       </div>
 
         <v-autocomplete
@@ -41,9 +41,9 @@
                 align-with-title
                 background-color="transparent"
               >
-                <v-tab>Tab 1</v-tab>
-                <v-tab>Tab 2</v-tab>
-                <v-tab>Tab 3</v-tab>
+                <v-tab>Inicio</v-tab>
+                <v-tab>Productos</v-tab>
+                <v-tab>V. Pesados</v-tab>
               </v-tabs>
             </template>
     </v-app-bar>
@@ -65,7 +65,10 @@ export default {
   },
 
   data: () => ({
-
+    logo: {
+      O: 'ODALIS',
+      M: 'MOTORS'
+    },
     loading: false,
     items: [],
     search: null,
@@ -96,6 +99,15 @@ export default {
       }, 500)
     },
   },
+    computed: {
+      logo () {
+        switch (this.$vuetify.breakpoint.name) {
+          case 'xs': return { O: 'O', M: 'M' };
+          case 'sm': return { O: 'O', M: 'M' }; 
+          default: return { O: 'ODALIS', M: 'MOTORS' };
+        }
+      },
+    },
 };
 </script>
 
