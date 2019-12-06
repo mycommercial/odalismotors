@@ -6,19 +6,24 @@
       dark
       elevate-on-scroll
     >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="@/assets/logos/honda-logo.png"
-          transition="scale-transition"
-          width="40"
-        />
+      <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
-        <span class="logo1">{{ logo.O }}</span>
-        <span class="logo2">{{ logo.M }}</span>        
-      </div>
+      <v-toolbar-title>
+       <div class="d-flex align-center">
+          <v-img
+            alt="Honda"
+            class="shrink mr-2"
+            contain
+            src="@/assets/logos/honda-logo.png"
+            transition="scale-transition"
+            width="40"
+            v-if="true"
+          />
+
+          <span class="logo1">{{ logo.O }}</span>
+          <span class="logo2">{{ logo.M }}</span>        
+        </div>        
+      </v-toolbar-title>
 
         <v-autocomplete
           v-model="select"
@@ -33,35 +38,53 @@
           label="Buscar Producto, Marca, Modelo, etc..."
           solo-inverted
           append-icon="mdi-magnify"
+          v-if="$vuetify.breakpoint.name != 'xs'"
         ></v-autocomplete>
+
+
       <v-spacer></v-spacer>
 
-            <template v-slot:extension>
-              <v-tabs
-                align-with-title
-                background-color="transparent"
-              >
-                <v-tab>Inicio</v-tab>
-                <v-tab>Productos</v-tab>
-                <v-tab>V. Pesados</v-tab>
-              </v-tabs>
-            </template>
-    </v-app-bar>
+        <v-btn text icon v-if="$vuetify.breakpoint.name == 'xs'">
+          <v-icon>mdi-magnify</v-icon>
+        </v-btn>
 
+        <v-btn text icon>
+          <v-icon>mdi-cellphone-arrow-down</v-icon>
+        </v-btn>
+
+        <v-btn text icon>
+          <v-icon>mdi-calendar-range</v-icon>
+        </v-btn>        
+      <template v-slot:extension>
+        <v-tabs
+          v-model="tab"
+          align-with-title
+          background-color="transparent"
+        >
+          <v-tabs-slider color="#cc0000"></v-tabs-slider>
+
+          <v-tab v-for="item in tab_items" :key="item.name" :to="item.to">
+            {{ item.name }}
+          </v-tab>
+        </v-tabs>
+      </template>
+    </v-app-bar>
+    
     <v-content>
-      <HelloWorld/>
-    </v-content>
+      <router-view></router-view>                 
+    </v-content>  
+
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
+//import HelloWorld from './components/HelloWorld';
 
 export default {
   name: 'App',
 
   components: {
-    HelloWorld,
+    //HelloWorld,
   },
 
   data: () => ({
@@ -79,7 +102,13 @@ export default {
           'American Samoa',
           'Arizona',
           'Arkansas'
-    ]
+    ],
+    tab: null,
+    tab_items: [
+        {name:'INICIO', to: '/'}, {name:'PRODUCTOS', to: '/about'}, {name:'V. PESADOS', to: '/z'},
+        ],
+    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+      
   }),
 
   watch: {
