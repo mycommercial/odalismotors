@@ -18,8 +18,15 @@
           align="center"
           justify="center"
         >
-            <v-img src="@/assets/moto.png" alt="moto" contain max-height="400px"></v-img>
-          <div class="display-3">{{ slide }} Slide</div>
+            <v-img :src="getOPhoto(slide.photo)" alt="moto" contain max-height="400px" max-width="500px"></v-img>
+          <v-col>
+            <div class="display-3">
+              <span class="name">{{ slide.name }}</span>
+            </div>
+            <v-sheet :color="colors[i] + ' darken-4'" width="35%" height="" class="ma-2 pa-1">
+              <span class="price">RD$ {{ slide.price }}</span>
+            </v-sheet>
+          </v-col>
         </v-row>
       </v-sheet>
     </v-carousel-item>
@@ -33,24 +40,32 @@ export default {
       return {
         colors: [
           'indigo',
-          'warning',
-          'pink darken-2',
+          'orange',
+          'purple',
           'red lighten-1',
           'deep-purple accent-4',
         ],
         slides: [
-          'First',
-          'Second',
-          'Third',
-          'Fourth',
-          'Fifth',
+          {name: 'ZUZUKI 200', photo: 'moto1.png', price: 80000},
+          {name:'HONDA TODAY', photo: 'moto2.png', price: 38000},
+          {name: 'ZUZUKI ADDRESS', photo: 'moto3.png', price: 50000},
         ],
+      }
+    },
+
+    methods: {
+      getOPhoto(photoname) {
+        return require('../assets/Ofertas/'+ photoname)
       }
     },
 
 }
 </script>
 
-<style>
+<style lang="sass" scoped>
+span.price
+  font-family: "Arial Black", Gadget, sans-serif
 
+span.name
+  font-family: "Comic Sans MS", cursive, sans-serif
 </style>
