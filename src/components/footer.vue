@@ -28,8 +28,11 @@
         text
         rounded
         class="my-2"
+        :to="link.link"
+        :href="link.href"
+        :target="link.href ? '_blank' : ''"
       >
-        {{ link }}
+        {{ link.name }}
       </v-btn>
       <v-col
         class="primary lighten-2 py-4 text-center white--text"
@@ -59,11 +62,11 @@ export default {
 
     data: () => ({
       links: [
-        'Sobre Nosotros',
-        'Developer',
-        'Servicios',
-        'Blog',
-        'Contactanos',
+        {name: 'Sobre Nosotros', link: '/about'},
+        {name: 'Developer', href: 'https://github.com/VIXI0'},
+        {name: 'Servicios', link: '/about'},
+        {name: 'Blog',  link: '/about'},
+        {name: 'Contactanos',  link: '/about'},
       ],
     }),
 }
