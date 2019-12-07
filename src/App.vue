@@ -73,18 +73,19 @@
     <v-content>
       <router-view></router-view>                 
     </v-content>  
-
+    
+    <Footer/>
   </v-app>
 </template>
 
 <script>
-//import HelloWorld from './components/HelloWorld';
+import Footer from '@/components/footer.vue';
 
 export default {
   name: 'App',
 
   components: {
-    //HelloWorld,
+    Footer,
   },
 
   data: () => ({
