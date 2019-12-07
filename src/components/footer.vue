@@ -34,6 +34,9 @@
       >
         {{ link.name }}
       </v-btn>
+      <v-col cols="12">
+        <hr>
+      </v-col>
       <v-col
         class="primary lighten-2 py-4 text-center white--text"
         cols="12"
@@ -72,6 +75,13 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+hr {
+width: 90%;
+height: 3px;
+margin-left: auto;
+margin-right: auto;
+background-color:#cc0000;
+border: 0 none;
+}
 </style>

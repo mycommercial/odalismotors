@@ -18,8 +18,11 @@
           align="center"
           justify="center"
         >
+          <v-col align="right" justify="right">
             <v-img :src="getOPhoto(slide.photo)" alt="moto" contain max-height="400px" max-width="500px"></v-img>
-          <v-col>
+          </v-col>
+            
+          <v-col align="left" justify="left">
             <span :class="`${colors[i]}--text text--lighten-3 font-italic font-weight-light`">OFERTA DE DICIEMBRE</span>
             <div class="display-3">
               <span class="name">{{ slide.name }}</span>
@@ -47,7 +50,7 @@ export default {
           'deep-purple accent-4',
         ],
         slides: [
-          {name: 'ZUZUKI 200', photo: 'moto1.png', price: 80000},
+          {name: 'ZUZUKI GUAKAKA', photo: 'moto1.png', price: 80000},
           {name:'HONDA TODAY', photo: 'moto2.png', price: 38000},
           {name: 'ZUZUKI ADDRESS', photo: 'moto3.png', price: 50000},
         ],

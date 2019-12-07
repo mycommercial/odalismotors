@@ -1,17 +1,27 @@
 <template>
     <v-card flat color="grey lighten-5">
-        <v-card-title> <span class="title font-italic">Categorias Populares</span> </v-card-title>
+        <v-card-title> <span class="title font-italic">Categorias</span> </v-card-title>
          
           <v-container>
             <v-layout wrap>
                 <v-scale-transition v-for="(category, i) in categories" :key="i">
                     <v-flex md3 pa-2 v-show="more || i < 4">
                         <v-hover v-slot:default="{ hover }">
-                                <v-card outlined shaped :elevation="hover ? 12 : 2" to="/about">
-                                    <v-card-title>
-                                        <v-icon :color="hover ? 'primary': ''">{{ category.icon }}</v-icon>
-                                    </v-card-title>
-                                    <v-card-text :color="hover ? 'primary': ''">{{ category.name }}</v-card-text>
+                                <v-card min-height="100px" outlined shaped :elevation="hover ? 12 : 2" to="/about">
+                                    <v-col>
+                                        <v-row
+                                        class="fill-height"
+                                        align="center"
+                                        justify="center">
+                                            <v-icon large :color="hover ? 'primary': ''">{{ category.icon }}</v-icon>
+                                        </v-row>
+                                        <v-row
+                                        class="fill-height"
+                                        align="center"
+                                        justify="center">
+                                            <span>{{ category.name }}</span>
+                                        </v-row>
+                                    </v-col>
                                 </v-card>
                         </v-hover>
                     </v-flex>
