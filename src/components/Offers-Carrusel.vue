@@ -20,6 +20,7 @@
         >
             <v-img :src="getOPhoto(slide.photo)" alt="moto" contain max-height="400px" max-width="500px"></v-img>
           <v-col>
+            <span :class="`${colors[i]}--text text--lighten-3 font-italic font-weight-light`">OFERTA DE DICIEMBRE</span>
             <div class="display-3">
               <span class="name">{{ slide.name }}</span>
             </div>
