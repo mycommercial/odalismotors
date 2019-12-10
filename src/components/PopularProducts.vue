@@ -56,6 +56,7 @@ export default {
             { icon: 'mdi-account-clock', name: 'Usados'}
             ],
         more: false,
+        model: [],
         }
     },
 }

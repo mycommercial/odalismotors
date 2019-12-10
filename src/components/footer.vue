@@ -23,7 +23,7 @@
       </v-btn>
       <v-btn
         v-for="link in links"
-        :key="link"
+        :key="link.name"
         color="white"
         text
         rounded
@@ -47,7 +47,7 @@
         <v-btn class="mx-4" dark icon>
           <v-icon size="24px">mdi-twitter-box</v-icon>
         </v-btn>
-        {{ new Date().getFullYear() }} — <strong>Odalis Motors</strong>
+        {{ new Date().getFullYear() }} — <strong>MYcommercial</strong>
         <v-btn class="mx-4" dark icon>
           <v-icon size="24px">mdi-google-plus</v-icon>
         </v-btn>
