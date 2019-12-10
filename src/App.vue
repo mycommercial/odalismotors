@@ -1,16 +1,48 @@
 <template>
   <v-app>
+    <v-navigation-drawer app v-model="drawer">
+      <v-list-item>
+          <v-list-item-avatar>
+            <v-img src="https://randomuser.me/api/portraits/men/78.jpg"></v-img>
+          </v-list-item-avatar>
+
+          <v-list-item-content>
+            <v-list-item-title>John Leider</v-list-item-title>
+          </v-list-item-content>
+      </v-list-item>
+
+      <v-divider></v-divider>
+
+      <v-list
+        dense
+        nav
+      >
+        <v-list-item
+          v-for="item in items"
+          :key="item.title"
+          link
+        >
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
     <v-app-bar
       app
       color="primary"
       dark
       elevate-on-scroll
     >
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer"/>
 
       <v-toolbar-title>
        <div class="d-flex align-center">
-          <v-img
+          <!-- <v-img
             alt="Honda"
             class="shrink mr-2"
             contain
@@ -18,10 +50,10 @@
             transition="scale-transition"
             width="40"
             v-if="true"
-          />
+          /> -->
 
-          <span class="logo1">{{ logo.O }}</span>
-          <span class="logo2">{{ logo.M }}</span>        
+          <span class="logo1">{{ logoReactive.O }}</span>
+          <span class="logo2">{{ logoReactive.M }}</span>        
         </div>        
       </v-toolbar-title>
 
@@ -52,7 +84,7 @@
           <v-icon>mdi-cellphone-arrow-down</v-icon>
         </v-btn>
 
-        <v-btn text icon>
+        <v-btn text icon v-if="$vuetify.breakpoint.name != 'xs'">
           <v-icon>mdi-calendar-range</v-icon>
         </v-btn>        
       <template v-slot:extension>
@@ -90,11 +122,16 @@ export default {
 
   data: () => ({
     logo: {
-      O: 'ODALIS',
-      M: 'MOTORS'
+      O: 'MY',
+      M: 'COMERCIAL'
     },
+    drawer: false,
     loading: false,
-    items: [],
+    items: [
+          { title: 'Dashboard', icon: 'mdi-view-dashboard' },
+          { title: 'Photos', icon: 'mdi-image' },
+          { title: 'About', icon: 'mdi-help-box' },
+        ],
     search: null,
     select: null,
     states: [
@@ -130,11 +167,11 @@ export default {
     },
   },
     computed: {
-      logo () {
+      logoReactive () {
         switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return { O: 'O', M: 'M' };
-          case 'sm': return { O: 'O', M: 'M' }; 
-          default: return { O: 'ODALIS', M: 'MOTORS' };
+          case 'xs': return { O: 'M', M: 'Y' };
+          case 'sm': return { O: 'MY', M: 'COMERCIAL' }; 
+          default: return { O: 'MY', M: 'COMERCIAL' };
         }
       },
     },
