@@ -3,7 +3,9 @@
     cycle
     height="400"
     hide-delimiter-background
-    show-arrows-on-hover
+    delimiter-icon="mdi-bomb"
+    :show-arrows-on-hover="!$vuetify.breakpoint.xs"
+    :hide-delimiters="$vuetify.breakpoint.xs"
   >
     <v-carousel-item
       v-for="(slide, i) in slides"
@@ -13,6 +15,9 @@
         :color="colors[i]"
         height="100%"
       >
+      <span 
+            :class="`${colors[i]}--text text--lighten-3 font-italic font-weight-light`"
+            v-if="$vuetify.breakpoint.xs">OFERTA DE DICIEMBRE</span>
         <v-row
           class="fill-height"
           align="center"
@@ -22,9 +27,11 @@
             <v-img :src="getOPhoto(slide.photo)" alt="moto" contain max-height="400px" max-width="500px"></v-img>
           </v-col>
             
-          <v-col align="left" justify="left">
-            <span :class="`${colors[i]}--text text--lighten-3 font-italic font-weight-light`">OFERTA DE DICIEMBRE</span>
-            <div class="display-3">
+          <v-col :align="$vuetify.breakpoint.xs ? 'center' : 'left'" :justify="$vuetify.breakpoint.xs ? 'top' : 'left'">
+            <span 
+            :class="`${colors[i]}--text text--lighten-3 font-italic font-weight-light`"
+            v-if="!$vuetify.breakpoint.xs">OFERTA DE DICIEMBRE</span>
+            <div :class="$vuetify.breakpoint.xs ? 'title' : 'display-3'">
               <span class="name">{{ slide.name }}</span>
             </div>
             <v-sheet :color="colors[i] + ' darken-4'" width="35%" height="" class="ma-2 pa-1">
