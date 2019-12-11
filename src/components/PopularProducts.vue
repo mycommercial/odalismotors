@@ -9,7 +9,7 @@
                     center-active
                 >
                     <v-slide-item
-                    v-for="n in 15"
+                    v-for="n in products"
                     :key="n"
                     v-slot:default="{ active, toggle }"
                     >
@@ -56,9 +56,19 @@ export default {
             { icon: 'mdi-account-clock', name: 'Usados'}
             ],
         more: false,
-        model: [],
+        model: 0,
+        products: 15,
         }
     },
+    created() {
+        setInterval(() => {
+            if (this.model < this.products) {
+                this.model++
+            } else {
+                this.model = 0
+            }
+        }, 10000)
+    }
 }
 </script>
 
