@@ -40,7 +40,7 @@
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"/>
 
-      <v-toolbar-title>
+      <v-toolbar-title v-show="!searchVisible">
        <div class="d-flex align-center">
           <!-- <v-img
             alt="Honda"
@@ -52,8 +52,8 @@
             v-if="true"
           /> -->
 
-          <span class="logo1">{{ logoReactive.O }}</span>
-          <span class="logo2">{{ logoReactive.M }}</span>        
+          <span class="logo1">{{ logo.O }}</span>
+          <span class="logo2">{{ logo.M }}</span>        
         </div>        
       </v-toolbar-title>
 
@@ -67,16 +67,16 @@
           flat
           hide-no-data
           hide-details
-          label="Buscar Producto, Marca, Modelo, etc..."
+          label="Buscar Producto Marca Modelo etc..."
           solo-inverted
-          append-icon="mdi-magnify"
-          v-if="$vuetify.breakpoint.name != 'xs'"
+          :append-icon="searchVisible ? '' : 'mdi-magnify'"
+          v-show="!$vuetify.breakpoint.xs || searchVisible"
         ></v-autocomplete>
 
 
       <v-spacer></v-spacer>
 
-        <v-btn text icon v-if="$vuetify.breakpoint.name == 'xs'">
+        <v-btn text icon v-if="$vuetify.breakpoint.xs" @click="searchVisible = !searchVisible">
           <v-icon>mdi-magnify</v-icon>
         </v-btn>
 
@@ -84,7 +84,7 @@
           <v-icon>mdi-cellphone-arrow-down</v-icon>
         </v-btn>
 
-        <v-btn text icon v-if="$vuetify.breakpoint.name != 'xs'">
+        <v-btn text icon v-if="!$vuetify.breakpoint.xs">
           <v-icon>mdi-calendar-range</v-icon>
         </v-btn>        
       <template v-slot:extension>
@@ -123,7 +123,7 @@ export default {
   data: () => ({
     logo: {
       O: 'MY',
-      M: 'COMERCIAL'
+      M: 'COMMERCIAL'
     },
     drawer: false,
     loading: false,
@@ -133,6 +133,7 @@ export default {
           { title: 'About', icon: 'mdi-help-box' },
         ],
     search: null,
+    searchVisible: false,
     select: null,
     states: [
           'Alabama',
@@ -167,13 +168,13 @@ export default {
     },
   },
     computed: {
-      logoReactive () {
-        switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return { O: 'M', M: 'Y' };
-          case 'sm': return { O: 'MY', M: 'COMERCIAL' }; 
-          default: return { O: 'MY', M: 'COMERCIAL' };
-        }
-      },
+      // logoReactive () {
+      //   switch (this.$vuetify.breakpoint.name) {
+      //     case 'xs': return { O: 'MY', M: 'COMMERCIAL' };
+      //     case 'sm': return { O: 'MY', M: 'COMMERCIAL' }; 
+      //     default: return { O: 'MY', M: 'COMMERCIAL' };
+      //   }
+      // },
     },
 };
 </script>
@@ -191,5 +192,9 @@ span.logo1
 span.logo2
    font-family: $font-logo
    color: $secodary-color-logo
+
+.v-tabs-bar.v-tabs-bar--is-mobile .v-tab 
+    margin-left: 0px !important
+
 
 </style>
