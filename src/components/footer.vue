@@ -41,17 +41,17 @@
         class="primary lighten-2 py-4 text-center white--text"
         cols="12"
       >
-        <v-btn class="mx-4" dark icon>
+        <v-btn class="mx-1" dark icon>
           <v-icon size="24px">mdi-facebook-box</v-icon>
         </v-btn>
-        <v-btn class="mx-4" dark icon>
+        <v-btn class="mx-1" dark icon>
           <v-icon size="24px">mdi-twitter-box</v-icon>
         </v-btn>
         {{ new Date().getFullYear() }} — <strong>MYcommercial</strong>
-        <v-btn class="mx-4" dark icon>
+        <v-btn class="mx-1" dark icon>
           <v-icon size="24px">mdi-google-plus</v-icon>
         </v-btn>
-        <v-btn class="mx-4" dark icon>
+        <v-btn class="mx-1" dark icon>
           <v-icon size="24px">mdi-instagram</v-icon>
         </v-btn>
       </v-col>
