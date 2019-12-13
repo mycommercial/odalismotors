@@ -1,17 +1,23 @@
 <template>
   <v-app>
     <v-navigation-drawer app v-model="drawer">
-      <v-list-item>
-          <v-list-item-avatar>
-            <v-img src="https://randomuser.me/api/portraits/men/78.jpg"></v-img>
-          </v-list-item-avatar>
-
-          <v-list-item-content>
-            <v-list-item-title>John Leider</v-list-item-title>
-          </v-list-item-content>
-      </v-list-item>
-
-      <v-divider></v-divider>
+      <v-img :aspect-ratio="16/9" src="https://images.wsj.net/im-103414?width=620&size=1.5">
+        <v-row align="end" class="lightbox white--text pa-2 fill-height">
+          <v-col>
+            <v-avatar>
+              <img
+                src="https://cdn.vuetifyjs.com/images/john.jpg"
+                alt="John"
+              >
+            </v-avatar>
+            <div class="subheading">Jonathan Lee</div>
+            <div class="body-2">heyfromjonathan@gmail.com
+              <v-icon dark>mdi-menu-down</v-icon>
+            </div>
+            
+          </v-col>
+        </v-row>
+      </v-img>
 
       <v-list
         dense
@@ -196,5 +202,9 @@ span.logo2
 .v-tabs-bar.v-tabs-bar--is-mobile .v-tab 
     margin-left: 0px !important
 
+.lightbox
+    box-shadow: 0 0 20px inset rgba(0, 0, 0, 0.2)
+    background: rgba(0, 0, 0, 0.4)
+  
 
 </style>
