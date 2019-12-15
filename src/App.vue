@@ -66,7 +66,7 @@
         <v-autocomplete
           v-model="select"
           :loading="loading"
-          :items="items"
+          
           :search-input.sync="search"
           cache-items
           class="mx-4"
@@ -87,7 +87,7 @@
         </v-btn>
 
         <v-btn text icon>
-          <v-icon>mdi-cellphone-arrow-down</v-icon>
+          <v-icon>mdi-cart-outline</v-icon>
         </v-btn>
 
         <v-btn text icon v-if="!$vuetify.breakpoint.xs">
@@ -150,7 +150,7 @@ export default {
     ],
     tab: null,
     tab_items: [
-        {name:'INICIO', to: '/'}, {name:'PRODUCTOS', to: '/about'}, {name:'V. PESADOS', to: '/about'},
+        {name:'INICIO', to: '/'}, {name:'PRODUCTOS', to: '/productos'}, {name:'V. PESADOS', to: '/about'},
         ],
     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       
