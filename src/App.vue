@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-navigation-drawer app v-model="drawer">
+    <v-navigation-drawer v-if="$vuetify.breakpoint.xs" app v-model="drawer">
       <v-img :aspect-ratio="16/9" src="https://images.wsj.net/im-103414?width=620&size=1.5">
         <v-row align="end" class="lightbox white--text pa-2 fill-height">
           <v-col>
@@ -45,7 +45,7 @@
       dark
       elevate-on-scroll
     >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"/>
+      <v-app-bar-nav-icon v-if="$vuetify.breakpoint.xs" @click.stop="drawer = !drawer"/>
 
       <v-toolbar-title v-show="!searchVisible">
        <div class="d-flex align-center">
