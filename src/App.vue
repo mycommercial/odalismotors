@@ -38,6 +38,7 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
+    
     <v-app-bar
       app
       color="primary"
@@ -76,13 +77,13 @@
           label="Buscar Producto Marca Modelo etc..."
           solo-inverted
           :append-icon="searchVisible ? '' : 'mdi-magnify'"
-          v-show="!$vuetify.breakpoint.xs || searchVisible"
+          v-show="!$vuetify.breakpoint.xs"
         ></v-autocomplete>
 
 
       <v-spacer></v-spacer>
 
-        <v-btn text icon v-if="$vuetify.breakpoint.xs" @click="searchVisible = !searchVisible">
+        <v-btn text icon v-if="$vuetify.breakpoint.xs">
           <v-icon>mdi-magnify</v-icon>
         </v-btn>
 
@@ -91,20 +92,21 @@
         </v-btn>
 
         <v-btn text icon v-if="!$vuetify.breakpoint.xs">
-          <v-icon>mdi-calendar-range</v-icon>
+          <v-icon>mdi-logout</v-icon>
         </v-btn>        
       <template v-slot:extension>
-        <v-tabs
-          v-model="tab"
-          align-with-title
-          background-color="transparent"
-        >
-          <v-tabs-slider color="#cc0000"></v-tabs-slider>
+        <v-spacer v-if="$vuetify.breakpoint.xs"></v-spacer>
 
-          <v-tab v-for="item in tab_items" :key="item.name" :to="item.to">
-            {{ item.name }}
-          </v-tab>
-        </v-tabs>
+        <v-chip
+        v-for="chip in chip_items"
+        :key="chip.name"
+        @click="$router.push(chip.link)"
+          class="ma-2"
+          color="primary"
+        >
+          {{chip.name}}
+        </v-chip>
+      <v-spacer v-if="$vuetify.breakpoint.xs"></v-spacer>
       </template>
     </v-app-bar>
     
@@ -135,8 +137,8 @@ export default {
     loading: false,
     items: [
           { title: 'Dashboard', icon: 'mdi-view-dashboard' },
-          { title: 'Photos', icon: 'mdi-image' },
-          { title: 'About', icon: 'mdi-help-box' },
+          { title: 'Citas', icon: 'mdi-calendar-range' },
+          { title: 'Cerrar sesion', icon: 'mdi-logout' },
         ],
     search: null,
     searchVisible: false,
@@ -149,8 +151,19 @@ export default {
           'Arkansas'
     ],
     tab: null,
-    tab_items: [
-        {name:'INICIO', to: '/'}, {name:'PRODUCTOS', to: '/productos'}, {name:'V. PESADOS', to: '/about'},
+          tags: [
+        'Work',
+        'Home Improvement',
+        'Vacation',
+        'Food',
+        'Drawers',
+        'Shopping',
+        'Art',
+        'Tech',
+        'Creative Writing',
+      ],
+    chip_items: [
+        {name:'INICIO', link: '/'}, {name:'PRODUCTOS', link: '/productos'}, {name:'V. PESADOS', link: '/about'},
         ],
     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       
@@ -188,7 +201,7 @@ export default {
 <style lang="sass" scoped>
 $font-logo:  "Arial Black", Gadget, sans-serif
 $primary-color-logo: #ffffff
-$secodary-color-logo: #cc0000
+$secodary-color-logo: #DC143C
 
 span.logo1
    font-family: $font-logo
@@ -198,6 +211,9 @@ span.logo1
 span.logo2
    font-family: $font-logo
    color: $secodary-color-logo
+   -webkit-text-stroke-width: 0.5px
+   -webkit-text-stroke-color: #fff
+
 
 .v-tabs-bar.v-tabs-bar--is-mobile .v-tab 
     margin-left: 0px !important
@@ -206,5 +222,6 @@ span.logo2
     box-shadow: 0 0 20px inset rgba(0, 0, 0, 0.2)
     background: rgba(0, 0, 0, 0.4)
   
-
+.pading
+    margin-left: 0px !important
 </style>

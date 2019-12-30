@@ -15,10 +15,13 @@
         :color="colors[i]"
         height="100%"
       >
-      <span 
+      <v-icon class="tempicon" v-for="n in 25" :key="n" :style="`top: ${50 * n}px ; left: ${100 * n}px ;`" :size="`${random(1,100)}px`" color="rgb(255, 255, 255,0.3)">mdi-snowflake</v-icon>
+     
+      <div class="prod">
+        <span 
             :class="`${colors[i]}--text text--lighten-3 font-italic font-weight-light`"
-            v-if="$vuetify.breakpoint.xs">OFERTA DE DICIEMBRE</span>
-        <v-row
+            v-if="$vuetify.breakpoint.xs">OFERTA DE DICIEMBRE</span> 
+        <v-row 
           class="fill-height"
           align="center"
           justify="center"
@@ -39,6 +42,7 @@
             </v-sheet>
           </v-col>
         </v-row>
+      </div>
       </v-sheet>
     </v-carousel-item>
   </v-carousel>
@@ -67,16 +71,32 @@ export default {
     methods: {
       getOPhoto(photoname) {
         return require('../assets/Ofertas/'+ photoname)
+      },
+      random(low, high) {
+        return Math.random() * (high - low) + low
       }
     },
 
 }
 </script>
 
-<style lang="sass" scoped>
-span.price
-  font-family: "Arial Black", Gadget, sans-serif
-
-span.name
-  font-family: "Comic Sans MS", cursive, sans-serif
+<style lang="scss" scoped>
+span.price {
+  font-family: "Arial Black", Gadget, sans-serif;
+  
+}
+span.name{
+  font-family: "Comic Sans MS", cursive, sans-serif;
+}
+.prod {
+  
+  margin: 0%;
+  padding: 0%;
+  align-items: center;
+  justify-content: center;
+}
+.tempicon {
+  position: absolute;
+  
+}
 </style>
