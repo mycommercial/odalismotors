@@ -44,6 +44,8 @@
       color="primary"
       dark
       elevate-on-scroll
+      dense
+      clipped-left
     >
       <v-app-bar-nav-icon v-if="$vuetify.breakpoint.xs" @click.stop="drawer = !drawer"/>
 
@@ -67,7 +69,8 @@
         <v-autocomplete
           v-model="select"
           :loading="loading"
-          
+          rounded
+          dense
           :search-input.sync="search"
           cache-items
           class="mx-4"

@@ -15,7 +15,7 @@
         :color="colors[i]"
         height="100%"
       >
-      <v-icon class="tempicon" v-for="n in 25" :key="n" :style="`top: ${50 * n}px ; left: ${100 * n}px ;`" :size="`${random(1,100)}px`" color="rgb(255, 255, 255,0.3)">mdi-snowflake</v-icon>
+      <v-icon class="tempicon" v-for="n in 25" :key="n" :style="`top: ${40 * n}px ; left: ${100 * n}px ;`" :size="`${random(1,100)}px`" color="rgb(255, 255, 255,0.3)">mdi-snowflake</v-icon>
      
       <div class="prod">
         <span 
@@ -37,7 +37,7 @@
             <div :class="$vuetify.breakpoint.xs ? 'title' : 'display-3'">
               <span class="name">{{ slide.name }}</span>
             </div>
-            <v-sheet :color="colors[i] + ' darken-4'" width="35%" height="" class="ma-2 pa-1">
+            <v-sheet :color="colors[i] + ' darken-4'" width="35%" height="" elevation="5" class="ma-2 pa-1">
               <span class="price">RD$ {{ slide.price }}</span>
             </v-sheet>
           </v-col>
@@ -94,6 +94,7 @@ span.name{
   padding: 0%;
   align-items: center;
   justify-content: center;
+  z-index: 3;
 }
 .tempicon {
   position: absolute;

@@ -1,9 +1,10 @@
 <template>
-  <div>
+  <v-app>
       <v-navigation-drawer
       v-model="drawer"
-      
+       v-if="!$vuetify.breakpoint.xs"
       clipped
+      app
     >
       <v-list dense expand>
 
@@ -34,15 +35,23 @@
           <div class="enti">
             <v-radio-group v-model="radioGroup" dense>
               <v-radio dense label="Todos los resultados" :value="1" ></v-radio>
-              <v-radio dense label="Subasta" :value="2" ></v-radio>
+              <v-radio dense disabled label="Subasta" :value="2" >Coming soon</v-radio>
               <v-radio dense label="Compralo ahora !!" :value="3" ></v-radio>
             </v-radio-group>
           </div>
         </v-list-group>
       </v-list>
     </v-navigation-drawer>
-    <v-container></v-container>
-  </div>
+
+    <v-row no-gutters>
+        <v-col cols="12" sm="8">
+          <v-card elevation="1" class="ma-2">klk</v-card>
+        </v-col>
+        <v-col cols="12" sm="4">
+          col 4
+        </v-col>
+    </v-row>
+  </v-app>
 </template>
 
 <script>
