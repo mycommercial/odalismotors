@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-navigation-drawer v-if="$vuetify.breakpoint.xs" app v-model="drawer">
+    <v-navigation-drawer app v-model="drawer">
       <v-img :aspect-ratio="16/9" src="https://images.wsj.net/im-103414?width=620&size=1.5">
         <v-row align="end" class="lightbox white--text pa-2 fill-height">
           <v-col>
@@ -45,9 +45,8 @@
       dark
       elevate-on-scroll
       dense
-      clipped-left
     >
-      <v-app-bar-nav-icon v-if="$vuetify.breakpoint.xs" @click.stop="drawer = !drawer"/>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer"/>
 
       <v-toolbar-title v-show="!searchVisible">
        <div class="d-flex align-center">
@@ -90,14 +89,18 @@
           <v-icon>mdi-magnify</v-icon>
         </v-btn>
 
-        <v-btn text icon>
+        <v-btn text icon @click="$store.commit('appbarExt')">
           <v-icon>mdi-cart-outline</v-icon>
         </v-btn>
 
         <v-btn text icon v-if="!$vuetify.breakpoint.xs">
           <v-icon>mdi-logout</v-icon>
+        </v-btn> 
+
+        <v-btn text icon v-if="!$vuetify.breakpoint.xs">
+          <v-icon>mdi-account</v-icon>
         </v-btn>        
-      <template v-slot:extension>
+      <template v-slot:extension v-if="$store.state.appbarExt">
         <v-spacer v-if="$vuetify.breakpoint.xs"></v-spacer>
 
         <v-chip
@@ -166,7 +169,7 @@ export default {
         'Creative Writing',
       ],
     chip_items: [
-        {name:'INICIO', link: '/'}, {name:'PRODUCTOS', link: '/productos'}, {name:'V. PESADOS', link: '/about'},
+        {name:'INICIO', link: '/'}, {name:'PRODUCTOS', link: '/productos'}, {name:'VEHICULOS PESADOS', link: '/about'},
         ],
     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       

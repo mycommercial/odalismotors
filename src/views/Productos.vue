@@ -1,51 +1,75 @@
 <template>
   <v-app>
-      <v-navigation-drawer
-      v-model="drawer"
-       v-if="!$vuetify.breakpoint.xs"
-      clipped
-      app
-    >
-      <v-list dense expand>
-
-        
-             
-  
-        <v-list-group>
-          <template v-slot:activator>
-            <v-list-item-title>Estado</v-list-item-title>
-          </template>
-  
-          <label><input type="checkbox" id="cbox1" v-model="nuevo"> Nuevo</label><br>
-          <label><input type="checkbox" id="cbox1" v-model="usado"> Usado</label><br>
-        </v-list-group>
-
-           <v-list-group>
-          <template v-slot:activator>
-            <v-list-item-title>Precio</v-list-item-title>
-          </template>
-            <div class="enti">RD $<input id="inte" type="number">- RD $<input id="inte" type="number"></div>
-        </v-list-group>
-
-           <v-list-group>
-          <template v-slot:activator>
-            <v-list-item-title>Formato 
-              de compra</v-list-item-title>
-          </template>
-          <div class="enti">
-            <v-radio-group v-model="radioGroup" dense>
-              <v-radio dense label="Todos los resultados" :value="1" ></v-radio>
-              <v-radio dense disabled label="Subasta" :value="2" >Coming soon</v-radio>
-              <v-radio dense label="Compralo ahora !!" :value="3" ></v-radio>
-            </v-radio-group>
-          </div>
-        </v-list-group>
-      </v-list>
-    </v-navigation-drawer>
 
     <v-row no-gutters>
-        <v-col cols="12" sm="8">
-          <v-card elevation="1" class="ma-2">klk</v-card>
+        <v-col cols="12" sm="2">
+          <v-list dense expand>
+
+            
+                
+      
+            <v-list-group>
+              <template v-slot:activator>
+                <v-list-item-title>Estado</v-list-item-title>
+              </template>
+      
+              <label><input type="checkbox" id="cbox1" v-model="nuevo"> Nuevo</label><br>
+              <label><input type="checkbox" id="cbox1" v-model="usado"> Usado</label><br>
+            </v-list-group>
+
+              <v-list-group>
+              <template v-slot:activator>
+                <v-list-item-title>Precio</v-list-item-title>
+              </template>
+                <div class="enti">RD $<input id="inte" type="number">- RD $<input id="inte" type="number"></div>
+            </v-list-group>
+
+              <v-list-group>
+              <template v-slot:activator>
+                <v-list-item-title>Formato 
+                  de compra</v-list-item-title>
+              </template>
+              <div class="enti">
+                <v-radio-group v-model="radioGroup" dense>
+                  <v-radio dense label="Todos los resultados" :value="1" ></v-radio>
+                  <v-radio dense disabled label="Subasta" :value="2" >Coming soon</v-radio>
+                  <v-radio dense label="Compralo ahora !!" :value="3" ></v-radio>
+                </v-radio-group>
+              </div>
+            </v-list-group>
+          </v-list>
+
+        </v-col>
+        <v-col cols="12" sm="6">
+
+          <v-card elevation="1" height="150px" class="ma-2" v-for="n in 16" :key="n">
+            <v-row no-gutters>
+              <v-col cols="12" sm="4">
+                <v-img 
+                  src="https://picsum.photos/id/11/500/300"
+                  lazy-src="https://picsum.photos/id/11/10/6"
+                  class="grey lighten-2"
+                  contain
+                  height="150px"
+
+                ></v-img>
+              </v-col>
+
+              <v-col cols="12" sm="8">
+                <v-row no-gutters class="pl-4">
+                  <v-col cols="12">
+                    <router-link to=""  class="clear-link"><h3>un enviroment incredible</h3></router-link>
+                  </v-col>
+
+                  <v-col cols="3">
+                    <span class="price">RD$ 56.00</span>
+                  </v-col>
+                  
+                </v-row>
+              </v-col>
+            </v-row>
+          </v-card>
+
         </v-col>
         <v-col cols="12" sm="4">
           col 4
@@ -102,4 +126,13 @@ div.enti {
   margin: 0px;
   margin-left: 15px;
 }
+
+a.clear-link {
+  text-decoration: none;
+}
+
+span.price {
+  font-weight: bold;
+}
+
 </style>
