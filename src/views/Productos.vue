@@ -70,6 +70,13 @@
             </v-row>
           </v-card>
 
+         <v-pagination
+           v-model="page"
+           :length="750"
+           :total-visible="10"
+           circle
+              ></v-pagination>
+
         </v-col>
         <v-col cols="12" sm="4">
           col 4
@@ -87,6 +94,7 @@ export default {
     data: () => ({
       drawer: true,
       radioGroup: 1,
+      page: 1,
       nuevo: false,
       usado: false,
       items: [
