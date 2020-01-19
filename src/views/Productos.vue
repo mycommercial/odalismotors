@@ -40,7 +40,7 @@
           </v-list>
 
         </v-col>
-        <v-col cols="12" sm="6">
+        <v-col cols="12" sm="7">
 
           <v-card elevation="1" height="150px" class="ma-2" v-for="n in 16" :key="n">
             <v-row no-gutters>
@@ -58,11 +58,11 @@
               <v-col cols="12" sm="8">
                 <v-row no-gutters class="pl-4">
                   <v-col cols="12">
-                    <router-link to=""  class="clear-link"><h3>un enviroment incredible</h3></router-link>
+                    <router-link to=""  class="clear-link"><h3 class="clear-link">un enviroment incredible</h3></router-link>
                   </v-col>
 
                   <v-col cols="3">
-                    <span class="price">RD$ 56.00</span>
+                    <span class="sup" >RD$</span> <span class="price">56.00</span><span class="sup noce">99</span> 
                   </v-col>
                   
                 </v-row>
@@ -78,7 +78,7 @@
               ></v-pagination>
 
         </v-col>
-        <v-col cols="12" sm="4">
+        <v-col cols="12" sm="3">
           col 4
         </v-col>
     </v-row>
@@ -139,8 +139,19 @@ a.clear-link {
   text-decoration: none;
 }
 
+h3.clear-link:hover {
+  color: #DC143C;
+}
+
 span.price {
   font-weight: bold;
+}
+
+span.sup {
+  position: relative;
+  bottom: 5px;
+  font-weight: normal;
+  font-size: 10px;
 }
 
 </style>
