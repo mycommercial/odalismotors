@@ -62,7 +62,7 @@
                   </v-col>
 
                   <v-col cols="3">
-                    <span class="sup" >RD$</span> <span class="price">56.00</span><span class="sup noce">99</span> 
+                    <span class="sup" >RD$</span> <span class="price">56.00</span><span class="sup">99</span> 
                   </v-col>
                   
                 </v-row>
@@ -90,7 +90,10 @@ export default {
   name: 'productos',
   components: {
   },
-
+  props: {
+    Department: String,
+    userName: String
+  },
     data: () => ({
       drawer: true,
       radioGroup: 1,
@@ -112,6 +115,15 @@ export default {
         { picture: 78, text: 'MKBHD' },
       ],
     }),
+
+     created() {
+       
+       if (process.env.NODE_ENV != 'production') {
+         console.log(this.userId, this.userName)
+       }
+      
+    }
+
 }
 </script>
 
