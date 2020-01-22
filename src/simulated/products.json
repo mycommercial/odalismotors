@@ -3,7 +3,11 @@
         {
             "name": "",
             "description": "",
-            "stock": {}
+            "stock": {},
+            "img": "",
+            "lazy": "",
+            "department": "",
+            "tags": [""]
 
         }
     ]
