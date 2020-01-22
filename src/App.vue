@@ -99,14 +99,15 @@
 
         <v-btn text icon v-if="!$vuetify.breakpoint.xs">
           <v-icon>mdi-account</v-icon>
-        </v-btn>        
+        </v-btn>   
+
       <template v-slot:extension v-if="$store.state.appbarExt">
         <v-spacer v-if="$vuetify.breakpoint.xs"></v-spacer>
 
         <v-chip
         v-for="chip in chip_items"
         :key="chip.name"
-        @click="$router.push(chip.link)"
+        @click="$router.push({name: chip.link, params: { Department: 'all', userName: 'pedro' }, query: { plan: 'private' }})"
           class="ma-2"
           color="primary"
         >
@@ -114,6 +115,7 @@
         </v-chip>
       <v-spacer v-if="$vuetify.breakpoint.xs"></v-spacer>
       </template>
+      
     </v-app-bar>
     
     <v-content>
@@ -169,7 +171,7 @@ export default {
         'Creative Writing',
       ],
     chip_items: [
-        {name:'INICIO', link: '/'}, {name:'PRODUCTOS', link: '/productos'}, {name:'VEHICULOS PESADOS', link: '/about'},
+        {name:'INICIO', link: 'home'}, {name:'PRODUCTOS', link: 'productos'}, {name:'VEHICULOS PESADOS', link: '/about'},
         ],
     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       
