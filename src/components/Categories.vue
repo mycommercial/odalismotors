@@ -7,7 +7,7 @@
                 <v-scale-transition v-for="(category, i) in categories" :key="i">
                     <v-flex md3 pa-2 v-show="more || i < 4">
                         <v-hover v-slot:default="{ hover }">
-                                <v-card min-height="100px" outlined shaped :elevation="hover ? 12 : 2" to="/about">
+                                <v-card min-height="100px" outlined shaped :elevation="hover ? 12 : 2" :to="{name: 'productos', params: { Department: category.name }, query: { q: 'all' }}">
                                     <v-col>
                                         <v-row
                                         class="fill-height"
