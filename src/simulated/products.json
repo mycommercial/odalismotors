@@ -1,7 +1,10 @@
 {
     "product": [
         {
+            "_id": "1",
             "name": "Honda today 50cc",
+            "price": "49",
+            "pfloat": "78",
             "description": "Pasola honda today atrasada",
             "stock": [{
                 "_id": "1",

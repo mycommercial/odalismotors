@@ -42,11 +42,11 @@
         </v-col>
         <v-col cols="12" sm="7">
 
-          <v-card elevation="1" height="150px" class="ma-2" v-for="n in 16" :key="n">
+          <v-card elevation="1" height="150px" class="ma-2" v-for="product in products" :key="product">
             <v-row no-gutters>
               <v-col cols="12" sm="4">
                 <v-img 
-                  src="https://picsum.photos/id/11/500/300"
+                  :src="product.img"
                   lazy-src="https://picsum.photos/id/11/10/6"
                   class="grey lighten-2"
                   contain
@@ -58,11 +58,11 @@
               <v-col cols="12" sm="8">
                 <v-row no-gutters class="pl-4">
                   <v-col cols="12">
-                    <router-link to=""  class="clear-link"><h3 class="clear-link">un enviroment incredible</h3></router-link>
+                    <router-link :to="{name: 'viewpro',  params: { _id : product._id }}"  class="clear-link"><h3 class="clear-link">{{ product.name }}</h3></router-link>
                   </v-col>
 
                   <v-col cols="3">
-                    <span class="sup" >RD$</span> <span class="price">56.00</span><span class="sup">99</span> 
+                    <span class="sup" >RD$</span> <span class="price">{{product.price}}</span><span class="sup">{{ product.pfloat }}</span> 
                   </v-col>
                   
                 </v-row>
@@ -86,6 +86,8 @@
 </template>
 
 <script>
+import productos from './../simulated/products.json'
+
 export default {
   name: 'productos',
   components: {
@@ -98,6 +100,7 @@ export default {
       drawer: true,
       radioGroup: 1,
       page: 1,
+      products: [],
       nuevo: false,
       usado: false,
       items: [
@@ -117,10 +120,13 @@ export default {
     }),
 
      created() {
+       this.products = productos.product;
        
        if (process.env.NODE_ENV != 'production') {
          console.log(this.userId, this.userName)
        }
+
+
       
     }
 

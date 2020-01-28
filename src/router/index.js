@@ -22,7 +22,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/Productos.vue')
   },
   {
-    path: '/viewpro/:ID',
+    path: '/viewpro/:_id',
     name: 'viewpro',
     props: true,
     component: () => import(/* webpackChunkName: "about" */ '../views/Viewpro.vue')
