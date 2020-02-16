@@ -62,7 +62,7 @@
                   </v-col>
 
                   <v-col cols="3">
-                    <span class="sup" >RD$</span> <span class="price">{{product.price}}</span><span class="sup">{{ product.pfloat }}</span> 
+                    <span class="sup" >RD$</span> <span class="price">{{ product.price }}</span><span class="sup">{{ product.pfloat }}</span> 
                   </v-col>
                   
                 </v-row>
