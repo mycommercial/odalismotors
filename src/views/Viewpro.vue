@@ -45,7 +45,23 @@
                 </v-slide-group> 
       </v-col>
       
-      <v-col>
+      <v-col class="maindata" cols="12" sm="4" align="left" justify="left">
+        <h3> nombre del producto al que se clickeo </h3>
+        <v-divider></v-divider>
+          <div class="ma-4">
+            <v-text-field
+              label="Cantidad"
+              placeholder="0"
+              outlined
+              type="number"
+            ></v-text-field>
+            <v-select
+              :items="colores"
+              label="Color"
+            ></v-select>
+          </div>
+          <v-card color="grey lighten-2" class="ma-4" height="100" width="500">
+          </v-card>
       </v-col>
       
       <v-col>
@@ -67,10 +83,11 @@ name: 'viewpro',
   },
     data: () => ({
       slidepic: null,
+      colores: ['Verde', 'Blanco', 'Azul', 'Rojo'],
     }),
     methods: {
       gooffer: () => {
-        console.log("clicked goofer")
+        this.console.log("clicked goofer")
       }
     }
 }
