@@ -123,7 +123,7 @@ export default {
        this.products = productos.product;
        
        if (process.env.NODE_ENV != 'production') {
-         console.log(this.userId, this.userName)
+         this.console.log(this.userId, this.userName)
        }
 
 
