@@ -138,8 +138,8 @@ export default {
 
   data: () => ({
     logo: {
-      O: 'MY',
-      M: 'COMMERCIAL'
+      O: 'ODALIS',
+      M: 'MOTORS'
     },
     drawer: false,
     loading: false,

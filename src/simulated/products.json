@@ -23,13 +23,18 @@
 
         },
         {
-            "name": "",
-            "description": "",
-            "stock": {},
-            "img": "",
+            "_id": "2",
+            "name": "Paneles Solares 240w",
+            "price": "4999",
+            "pfloat": "99",
+            "description": "Paneles solar",
+            "stock": [{
+
+            }],
+            "img": "https://concepto.de/wp-content/uploads/2019/03/panel-solar-e1553091635674.jpg",
             "lazy": "",
-            "department": "",
-            "tags": [""]
+            "department": "Paneles solares",
+            "tags": ["solar", "paneles", "nueva", "usado"]
 
         },
         {

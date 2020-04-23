@@ -46,7 +46,7 @@ export default {
         categories: [
             { icon: 'mdi-motorbike', name: 'Motores y Pasolas'}, 
             { icon: 'mdi-engine-outline', name: 'Maquinas'}, 
-            { icon: 'mdi-towing', name: 'Equipo pesado'}, 
+            { icon: 'mdi-tractor', name: 'Equipo pesado'}, 
             { icon: 'mdi-solar-panel-large', name: 'Paneles Solares'}, 
             { icon: 'mdi-car-sports', name: 'Vehiculos'}, 
             { icon: 'mdi-account-clock', name: 'Usados'}
