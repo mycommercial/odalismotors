@@ -26,6 +26,12 @@ const routes = [
     name: 'viewpro',
     props: true,
     component: () => import(/* webpackChunkName: "about" */ '../views/Viewpro.vue')
+  },
+  {
+    path: '/maestroproductos',
+    name: 'maestroproductos',
+    props: true,
+    component: () => import(/* webpackChunkName: "about" */ '../views/MaestroProductos.vue')
   }
 ]
 

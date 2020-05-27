@@ -27,6 +27,7 @@
           v-for="item in items"
           :key="item.title"
           link
+          :to="item.to"
         >
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
@@ -89,7 +90,7 @@
           <v-icon>mdi-magnify</v-icon>
         </v-btn>
 
-        <v-btn text icon @click="$store.commit('appbarExt')">
+        <v-btn text icon @click="$store.commit('appbarExtReverse')">
           <v-icon>mdi-cart-outline</v-icon>
         </v-btn>
 
@@ -118,7 +119,7 @@
       
     </v-app-bar>
     
-    <v-content>
+    <v-content v-scroll="handleScroll">
       <router-view></router-view>                 
     </v-content>  
     
@@ -146,6 +147,7 @@ export default {
     items: [
           { title: 'Dashboard', icon: 'mdi-view-dashboard' },
           { title: 'Citas', icon: 'mdi-calendar-range' },
+          { title: 'Maestro De Productos', icon: 'mdi-package-variant', to: 'maestroproductos'},
           { title: 'Cerrar sesion', icon: 'mdi-logout' },
         ],
     search: null,
@@ -183,6 +185,7 @@ export default {
       },
     },
   methods: {
+
     querySelections (v) {
       this.loading = true
       // Simulated ajax query
@@ -193,6 +196,15 @@ export default {
         this.loading = false
       }, 500)
     },
+
+    handleScroll () {
+      if (window.scrollY > 50) {
+        this.$store.commit('appbarExtHide');
+      }else{
+        this.$store.commit('appbarExtShow');
+      }
+
+    }
   },
     computed: {
       // logoReactive () {

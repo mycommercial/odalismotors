@@ -8,8 +8,14 @@ export default new Vuex.Store({
     appbarExt: true
   },
   mutations: {
-    appbarExt (state) {
+    appbarExtReverse (state) {
       state.appbarExt = !state.appbarExt
+    },
+    appbarExtShow (state) {
+      state.appbarExt = true
+    },
+    appbarExtHide (state) {
+      state.appbarExt = false
     }
   },
   actions: {
