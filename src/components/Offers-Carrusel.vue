@@ -61,7 +61,6 @@ export default {
           'deep-purple accent-4',
         ],
         slides: [
-          {name: 'ZUZUKI GUAKAKA', photo: 'moto1.png', price: 80000},
           {name:'HONDA TODAY', photo: 'moto2.png', price: 38000},
           {name: 'ZUZUKI ADDRESS', photo: 'moto3.png', price: 50000},
         ],
