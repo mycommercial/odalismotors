@@ -4,5 +4,8 @@ module.exports = {
   "outputDir": path.resolve(__dirname, "../ORMA/www/"),
   "transpileDependencies": [
     "vuetify"
-  ]
+  ],
+  "configureWebpack": {
+    devtool: 'source-map'
+  }
 }

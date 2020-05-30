@@ -5,7 +5,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    appbarExt: true
+    appbarExt: true,
+    logged: false
   },
   mutations: {
     appbarExtReverse (state) {
