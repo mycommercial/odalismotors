@@ -1,6 +1,7 @@
 <template>
   <v-app>
-    <v-navigation-drawer app v-model="drawer">
+
+    <v-navigation-drawer app v-model="drawer" >
       <v-img :aspect-ratio="16/9" src="https://images.wsj.net/im-103414?width=620&size=1.5">
         <v-row align="end" class="lightbox white--text pa-2 fill-height">
           <v-col>
@@ -46,6 +47,7 @@
       dark
       elevate-on-scroll
       dense
+      :class="overlay ? 'overlay' : ''"
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"/>
 
@@ -94,11 +96,11 @@
           <v-icon>mdi-cart-outline</v-icon>
         </v-btn>
 
-        <v-btn text icon v-if="!$vuetify.breakpoint.xs">
+        <v-btn text icon v-if="!$vuetify.breakpoint.xs" @click="popup = true">
           <v-icon>mdi-logout</v-icon>
         </v-btn> 
 
-        <v-btn text icon v-if="!$vuetify.breakpoint.xs">
+        <v-btn text icon v-if="!$vuetify.breakpoint.xs" @click="overlay = !overlay">
           <v-icon>mdi-account</v-icon>
         </v-btn>   
 
@@ -119,22 +121,37 @@
       
     </v-app-bar>
     
-    <v-content v-scroll="handleScroll">
-      <router-view></router-view>                 
+    <v-content v-scroll="handleScroll" :class="overlay ? 'overlay' : ''">
+
+      <router-view></router-view>   
+                    
     </v-content>  
     
-    <Footer/>
+    <Footer :class="overlay ? 'overlay' : ''" />
+         <v-overlay
+          
+          opacity="0"
+          :value="overlay"
+          z-index="5"
+        >
+          <v-btn
+            color="primary"
+            @click="overlay = false"
+          >
+            Hide Overlay
+          </v-btn>
+        </v-overlay>
   </v-app>
 </template>
 
 <script>
-import Footer from '@/components/Footer.vue';
-
+import Footer from './components/Footer.vue';
 export default {
   name: 'App',
 
   components: {
     Footer,
+    
   },
 
   data: () => ({
@@ -142,6 +159,8 @@ export default {
       O: 'ODALIS',
       M: 'MOTORS'
     },
+    popup: false,
+    overlay: false,
     drawer: false,
     loading: false,
     items: [
@@ -222,6 +241,7 @@ export default {
 $font-logo:  "Arial Black", Gadget, sans-serif
 $primary-color-logo: #ffffff
 $secodary-color-logo: #DC143C
+$blur-intensity: 8px
 
 span.logo1
    font-family: $font-logo
@@ -244,4 +264,14 @@ span.logo2
   
 .pading
     margin-left: 0px !important
+
+.overlay
+    -webkit-filter: blur($blur-intensity)
+    -moz-filter: blur($blur-intensity)
+    -o-filter: blur($blur-intensity)
+    -ms-filter: blur($blur-intensity)
+    filter: blur($blur-intensity)
+    
+
+    
 </style>
