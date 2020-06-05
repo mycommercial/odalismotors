@@ -51,7 +51,6 @@
                   class="grey lighten-2"
                   contain
                   height="150px"
-
                 ></v-img>
               </v-col>
 
