@@ -6,7 +6,15 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     appbarExt: true,
-    logged: false
+    logged: false,
+    logo: {
+      O: "MY",
+      M: "COMMERCIAL"
+    },
+    popup: {
+      active: false,
+      component: "<template> <div> Clear </div> </template>"
+    },
   },
   mutations: {
     appbarExtReverse (state) {
@@ -17,6 +25,24 @@ export default new Vuex.Store({
     },
     appbarExtHide (state) {
       state.appbarExt = false
+    },
+    changePop (state, component) {
+      state.popup.component = component;
+    },
+    activePop (state) {
+      state.popup.active = true;
+    },
+    deactivePop(state) {
+      state.popup.active = true;
+    },
+    clearPop (state){
+      state.popup = {
+        active: false,
+        component: "<template> <div> Clear </div> </template>"
+      };
+    },
+    populatePop (state, popup) {
+      state.popup = popup;
     }
   },
   actions: {
