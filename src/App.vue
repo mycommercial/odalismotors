@@ -106,8 +106,8 @@
 
     <v-overlay :value="$store.state.popup.active" z-index="5">
 
-      <transition name="component-fade" mode="out-in">
-          <component v-bind:is="$store.state.popup.component" @blurry="blurry = $event"></component>
+      <transition name="flip" mode="out-in">
+          <component class="popup" v-bind:is="$store.state.popup.component" @blurry="blurry = $event"></component>
       </transition>
     </v-overlay>
   </v-app>
@@ -226,6 +226,20 @@ export default {
 
 .component-fade-enter, .component-fade-leave-to
   opacity: 0
+
+
+.flip-enter-active 
+  transition: all .2s cubic-bezier(0.55, 0.085, 0.68, 0.53) //ease-in-quad
+
+
+.flip-leave-active 
+  transition: all .25s cubic-bezier(0.25, 0.46, 0.45, 0.94) //ease-out-quad
+
+
+.flip-enter, .flip-leave-to 
+  transform: scaleY(0) translateZ(0)
+  opacity: 0
+
 
 </style>
 
