@@ -93,7 +93,7 @@
               -->
             </v-card-actions>
             <div class="d-flex justify-center">
-              <v-btn text x-small>
+              <v-btn text x-small @click="res">
                 Forgot Username / Password?
                 <v-icon small>mdi-arrow-right</v-icon>
               </v-btn>
@@ -103,6 +103,8 @@
 
 <script>
 import Register from "./Register.vue";
+import Restore from "./Restore.vue";
+
 export default {
     name: "Login",
 
@@ -128,6 +130,10 @@ export default {
         reg(){
           this.reset();
           this.$store.commit("changePop", Register);
+        },
+        res(){
+          this.reset();
+          this.$store.commit("changePop", Restore);
         },
         close() {
             this.$emit("blurry", false);
