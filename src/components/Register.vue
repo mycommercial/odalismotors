@@ -18,6 +18,78 @@
       >REGISTER</span>
     </div>
     <v-divider class="mx-8" />
+            <v-card-text>
+              <v-form ref="login" v-model="valid" lazy-validation>
+
+                  <v-text-field
+                    prepend-inner-icon="mdi-email"
+                    v-model="registry.email"
+                    :rules="emailRules"
+                    label="E-mail"
+                    required   
+                    rounded
+                    filled
+                    clearable
+                    outlined
+                    dense
+                  ></v-text-field>
+
+                <v-text-field
+                  prepend-inner-icon="mdi-account"
+                  v-model="registry.username"
+                  :counter="50"
+                  :rules="nameRules"
+                  label="Username"
+                  required
+                  rounded
+                  filled
+                  clearable
+                  outlined
+                  dense
+                ></v-text-field>
+
+                <v-text-field
+                  prepend-inner-icon="mdi-lock"
+                  v-model="registry.password"
+                  :rules="nameRules"
+                  label="Password"
+                  required
+                  rounded
+                  filled
+                  clearable
+                  outlined
+                  dense
+                  type="password"
+                ></v-text-field>
+
+                  <v-select
+                    prepend-inner-icon="mdi-map-marker"
+                    v-model="registry.select"
+                    :items="items"
+                    :rules="[v => !!v || 'Item is required']"
+                    label="Ciudad"
+                    required
+                    rounded
+                    filled
+                    clearable
+                    outlined
+                    dense
+                  ></v-select>
+
+                  <v-checkbox
+                    v-model="registry.checkbox"
+                    :rules="[v => !!v || 'You must agree to continue!']"
+                    label="Do you agree privacy bla bla bla?"
+                    required
+                    rounded
+                    filled
+                    clearable
+                    outlined
+                    dense
+                  ></v-checkbox>
+
+              </v-form>
+            </v-card-text>
   </v-card>
 </template>
 
@@ -25,11 +97,19 @@
 export default {
   name: "Register",
   data: () => ({
+        registry: {
+          username: '',
+          email: '',
+          password: '',
+          checkbox: false,
+          select: ''
+        },
+        items: ['La vega', 'Santiago','Santo Domingo'],
         nameRules: [
         v => !!v || "Username or E-mail is required",
         v =>
             (v && v.length <= 99) ||
-            "Username or E-mail must be less than 10 characters"
+            "Username or E-mail must be less than 99 characters"
         ],
         emailRules: [
         v => !!v || "E-mail is required",
