@@ -1,0 +1,5 @@
+mutation ($input: UsuarioInput!, $options: loginOption!) {
+  login( input: $input , options: $options ) {
+    access_token
+  }
+}
