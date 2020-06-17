@@ -62,6 +62,20 @@
                   type="password"
                 ></v-text-field>
 
+                <v-text-field
+                  prepend-inner-icon="mdi-lock"
+                  v-model="registry.Rpassword"
+                  :rules="repeateRassRule"
+                  label=" Repeat Password"
+                  required
+                  rounded
+                  filled
+                  clearable
+                  outlined
+                  dense
+                  type="password"
+                ></v-text-field>
+<!--
                   <v-select
                     prepend-inner-icon="mdi-map-marker"
                     v-model="registry.select"
@@ -75,7 +89,7 @@
                     outlined
                     dense
                   ></v-select>
-
+-->
                   <v-checkbox
                     v-model="registry.checkbox"
                     :rules="[v => !!v || 'You must agree to continue!']"
@@ -90,6 +104,12 @@
 
               </v-form>
             </v-card-text>
+            <v-card-actions class="d-flex justify-center">
+                      <v-btn :disabled="!valid" color="primary" class="my-2"  rounded>Sign up</v-btn>
+
+                      <v-btn color="error" class="mr-4"  outlined rounded>Sign in</v-btn>
+ 
+                    </v-card-actions>
   </v-card>
 </template>
 
@@ -101,6 +121,7 @@ export default {
           username: '',
           email: '',
           password: '',
+          Rpassword: '',
           checkbox: false,
           select: ''
         },
@@ -110,6 +131,9 @@ export default {
         v =>
             (v && v.length <= 99) ||
             "Username or E-mail must be less than 99 characters"
+        ],
+        repeateRassRule: [
+          v => !!v || "This field is required", v => v == this.registry.Rpassword || "Password must be the same"
         ],
         emailRules: [
         v => !!v || "E-mail is required",
