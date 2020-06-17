@@ -283,4 +283,16 @@ $blur-intensity: 8px
   -o-filter: blur($blur-intensity)
   -ms-filter: blur($blur-intensity)
   filter: blur($blur-intensity)
+
+::-webkit-scrollbar       
+  background-color:#fff
+  width:0px
+
+::-webkit-scrollbar-track 
+  background-color:#fff
+
+::-webkit-scrollbar-thumb
+  background-color: #babac0
+  border-radius:16px
+  border:4px solid #fff
 </style>
