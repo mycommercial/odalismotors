@@ -17,13 +17,23 @@
       </v-img>
 
       <v-list dense nav>
-        <v-list-item v-for="item in items" :key="item.title" link :to="item.to">
+        <v-list-item v-for="item in items" :key="item.title" link :to="item.to" >
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
 
           <v-list-item-content>
             <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        
+        <v-list-item v-if="$store.state.logged" @click="logout">
+          <v-list-item-icon>
+            <v-icon>mdi-logout</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>Cerrar sesion</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -76,11 +86,11 @@
         <v-icon>mdi-cart-outline</v-icon>
       </v-btn>
 
-      <v-btn text icon v-if="!$vuetify.breakpoint.xs" @click="popup = true">
+      <v-btn text icon v-if="!$vuetify.breakpoint.xs && $store.state.logged" @click="logout">
         <v-icon>mdi-logout</v-icon>
       </v-btn>
 
-      <v-btn text icon v-if="!$vuetify.breakpoint.xs" @click="logReg">
+      <v-btn text icon v-if="!$vuetify.breakpoint.xs && !$store.state.logged" @click="logReg">
         <v-icon>mdi-account</v-icon>
       </v-btn>
 
@@ -116,6 +126,7 @@
 <script>
 import Footer from "./components/Footer.vue";
 import Login from "./components/Login.vue";
+import { onLogout } from "./vue-apollo";
 //import Register from "./components/Register.vue";
 
 export default {
@@ -139,8 +150,7 @@ export default {
         title: "Maestro De Productos",
         icon: "mdi-package-variant",
         to: "maestroproductos"
-      },
-      { title: "Cerrar sesion", icon: "mdi-logout" }
+      }
     ],
     search: null,
     searchVisible: false,
@@ -177,6 +187,8 @@ export default {
       this.blurry = true;
       this.$store.commit('populatePop', { active: true, component: Login})
     },
+
+    logout() { onLogout(this.$apolloProvider.defaultClient); },
     querySelections(v) {
       this.loading = true;
       // Simulated ajax query
