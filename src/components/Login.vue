@@ -3,11 +3,18 @@
         color="rgb(255, 255, 255, .9)"
         light
         class="elevation-12"
-        height="450px"
-        width="400px"
-        :loading="$apollo.loading"
-        :disabled="$apollo.loading"
+        max-height="550px"
+        max-width="400px"
+        :loading="loading"
+        :disabled="loading"
       >
+      <template v-slot:progress>
+        <v-progress-linear
+          indeterminate
+          color="teal"
+        ></v-progress-linear>
+      </template>
+
         <div class="d-flex justify-space-between">
           <div>
             <span class="logo1">{{ $store.state.logo.O }}</span>
@@ -25,6 +32,14 @@
             class="my-5"
           >LOGIN</span>
         </div>
+          <v-alert
+            dense
+            text
+            :type="alert.type"
+            v-model="alert.if"
+          >
+            {{ alert.text }}
+          </v-alert>
         <v-divider class="mx-8" />
         <v-card-text>
           <v-form ref="login" v-model="valid" lazy-validation>
@@ -106,6 +121,12 @@ export default {
   name: "Login",
 
   data: () => ({
+    alert: {
+      if: false,
+      type: 'success',
+      text: 'text'
+    },
+    loading: false,
     keepLogged: false,
     cred: {
       username: "",
@@ -126,13 +147,16 @@ export default {
   }),
   methods: {
     login() {
+      // start loading
+      this.loading = true;
     // We save the user input in case of an error
     const cred = this.cred
     // We clear it early to give the UI a snappy feel
+    /*
     this.cred = {
       username: "",
       password: ""
-    };
+    };*/
     // Call to the graphql mutation
     this.$apollo.mutate({
       // Query
@@ -149,13 +173,31 @@ export default {
               }
     }).then((data) => {
       // Result
-      console.log(data)
-      onLogin(this.$apolloProvider.defaultClient, data.data.login.access_token)
+      console.log(data);
+      onLogin(this.$apolloProvider.defaultClient, data.data.login.access_token, this.keepLogged);
+      this.loading = false;
+      this.alert = {
+        if: true,
+        type: 'success',
+        text: 'credenciales correctas'
+      };
+      let close = this.close
+      setTimeout(function(){ close() }, 3000);
+
     }).catch((error) => {
       // Error
-      console.error(error)
+      // We save the user input in case of an error
+      //this.cred = cred;
+      //console.error(error)
       // We restore the initial user input
-      
+      this.loading = false;
+
+      if(error.graphQLErrors[0].extensions.code == 'BAD_USER_INPUT')
+      this.alert = {
+        if: true,
+        type: 'error',
+        text: error.graphQLErrors[0].message
+      };
     })
     },
     reg() {
