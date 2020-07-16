@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueApollo from 'vue-apollo'
+import store from './store'
 import { createApolloClient, restartWebsockets } from 'vue-cli-plugin-apollo/graphql-client'
 
 // Install the vue plugin
@@ -77,8 +78,8 @@ export function createProvider (options = {}) {
 }
 
 // Manually call this when user log in
-export async function onLogin (apolloClient, token) {
-  if (typeof localStorage !== 'undefined' && token) {
+export async function onLogin (apolloClient, token, keepLogged) {
+  if (typeof localStorage !== 'undefined' && token && keepLogged) {
     localStorage.setItem(AUTH_TOKEN, token)
   }
   if (apolloClient.wsClient) restartWebsockets(apolloClient.wsClient)
@@ -88,6 +89,7 @@ export async function onLogin (apolloClient, token) {
     // eslint-disable-next-line no-console
     console.log('%cError on cache reset (login)', 'color: orange;', e.message)
   }
+  store.state.logged = true;
 }
 
 // Manually call this when user log out
@@ -102,4 +104,5 @@ export async function onLogout (apolloClient) {
     // eslint-disable-next-line no-console
     console.log('%cError on cache reset (logout)', 'color: orange;', e.message)
   }
+  store.state.logged = false;
 }
