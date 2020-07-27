@@ -173,8 +173,8 @@ export default {
               }
     }).then((data) => {
       // Result
-      console.log(data);
-      onLogin(this.$apolloProvider.defaultClient, data.data.login.access_token, this.keepLogged);
+      //console.log(data);
+      onLogin(this.$apolloProvider.defaultClient, data.data.login, this.keepLogged);
       this.loading = false;
       this.alert = {
         if: true,

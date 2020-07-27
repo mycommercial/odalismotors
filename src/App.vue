@@ -2,21 +2,25 @@
   <v-app>
     <v-navigation-drawer app v-model="drawer">
       <v-img :aspect-ratio="16/9" src="https://images.wsj.net/im-103414?width=620&size=1.5">
-        <v-row align="end" class="lightbox white--text pa-2 fill-height">
+        <v-row :align="$store.state.logged ? 'end': 'center'" class="lightbox white--text pa-2 fill-height">
           <v-col>
-            <v-avatar>
-              <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
+            <v-avatar color="secondary">
+              <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" v-if="$store.state.logged" />
+              <v-icon v-if="!$store.state.logged" dark>mdi-account</v-icon>
             </v-avatar>
-            <div class="subheading">Jonathan Lee</div>
-            <div class="body-2">
-              heyfromjonathan@gmail.com
-              <v-icon dark>mdi-menu-down</v-icon>
+            <div v-if="$store.state.logged" class="subheading">{{this.$store.state.userInfo.username}}</div>
+            <div v-if="$store.state.logged" class="body-2">
+              {{this.$store.state.userInfo.email}}
+              <v-icon v-if="$store.state.logged" dark>mdi-menu-down</v-icon>
             </div>
           </v-col>
         </v-row>
       </v-img>
-
-      <v-list dense nav>
+      <div class="d-flex justify-center" v-if="!$store.state.logged">
+        <v-btn class="my-5 mx-2" @click="logReg();  drawer =  false" rounded elevation="12" color="primary">INICIAR SESION</v-btn>
+      </div>
+      
+      <v-list dense nav v-if="$store.state.logged">
         <v-list-item v-for="item in items" :key="item.title" link :to="item.to" >
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
@@ -27,7 +31,7 @@
           </v-list-item-content>
         </v-list-item>
         
-        <v-list-item v-if="$store.state.logged" @click="logout">
+        <v-list-item @click="logout">
           <v-list-item-icon>
             <v-icon>mdi-logout</v-icon>
           </v-list-item-icon>
@@ -78,9 +82,37 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn text icon v-if="$vuetify.breakpoint.xs">
+      <v-btn text icon v-if="$vuetify.breakpoint.xs" @click="searchDialog = true">
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
+
+      <v-dialog v-model="searchDialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+          <v-card>
+      <v-toolbar dark color="primary">
+          <v-btn icon dark @click="searchDialog = false">
+            <v-icon>mdi-arrow-left</v-icon>
+          </v-btn>
+ 
+        
+
+                <v-autocomplete
+          v-model="select"
+          :loading="loading"
+          rounded
+          dense
+          :search-input.sync="search"
+          cache-items
+          class="mx-4"
+          flat
+          hide-no-data
+          hide-details
+          label="Buscar Producto Marca Modelo etc..."
+          solo-inverted
+          :append-icon="searchVisible ? '' : 'mdi-magnify'"
+        ></v-autocomplete>
+        </v-toolbar>
+        </v-card>
+      </v-dialog>
 
       <v-btn text icon @click="$store.commit('appbarExtReverse')">
         <v-icon>mdi-cart-outline</v-icon>
@@ -137,7 +169,7 @@ export default {
   },
 
   data: () => ({
-
+    searchDialog: false,
     popup: false,
     loginRegister: true,
     blurry: false,
