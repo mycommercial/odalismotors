@@ -42,7 +42,7 @@
         </v-col>
         <v-col cols="12" sm="7">
 
-          <v-card elevation="1" height="150px" class="ma-2" v-for="product in products" :key="product">
+          <v-card elevation="1" max-height="250px" class="ma-2" v-for="product in products" :key="product">
             <v-row no-gutters>
               <v-col cols="12" sm="4">
                 <v-img 

@@ -11,6 +11,11 @@ export default new Vuex.Store({
       O: "MY",
       M: "COMMERCIAL"
     },
+    userInfo: {
+      username: '',
+      email: '',
+      photo: ''
+    },
     popup: {
       active: false,
       component: "<template> <div> Clear </div> </template>"

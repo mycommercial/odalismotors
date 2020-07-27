@@ -1,5 +1,5 @@
 <template>
-  <v-card color="rgb(255, 255, 255, .9)" light class="elevation-12" height="450px" width="400px">
+  <v-card color="rgb(255, 255, 255, .9)" light class="elevation-12" height="550px" width="400px">
     <div class="d-flex justify-space-between">
       <div>
         <span class="logo1">{{ $store.state.logo.O }}</span>
