@@ -192,12 +192,20 @@ export default {
       // We restore the initial user input
       this.loading = false;
 
-      if(error.graphQLErrors[0].extensions.code == 'BAD_USER_INPUT')
+      if(error.graphQLErrors[0].extensions.code == 'BAD_USER_INPUT'){
       this.alert = {
         if: true,
         type: 'error',
         text: error.graphQLErrors[0].message
       };
+    }else{
+      //console.log(error);
+      this.alert = {
+        if: true,
+        type: 'error',
+        text: "error interno del servidor"
+      }; 
+      }
     })
     },
     reg() {
