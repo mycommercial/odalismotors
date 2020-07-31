@@ -1,5 +1,20 @@
 <template>
-  <v-card color="rgb(255, 255, 255, .9)" light class="elevation-12" height="550px" width="400px">
+  <v-card 
+  color="rgb(255, 255, 255, .9)" 
+  light 
+  class="elevation-12" height="550px" 
+  width="400px"
+        :loading="loading"
+        :disabled="loading"
+      >
+
+      <template v-slot:progress>
+        <v-progress-linear
+          indeterminate
+          color="teal"
+        ></v-progress-linear>
+      </template>
+
     <div class="d-flex justify-space-between">
       <div>
         <span class="logo1">{{ $store.state.logo.O }}</span>
@@ -17,9 +32,17 @@
         class="my-5"
       >REGISTER</span>
     </div>
+              <v-alert
+            dense
+            text
+            :type="alert.type"
+            v-model="alert.if"
+          >
+            {{ alert.text }}
+          </v-alert>
     <v-divider class="mx-8" />
             <v-card-text>
-              <v-form ref="login" v-model="valid" lazy-validation>
+              <v-form ref="register" v-model="valid" lazy-validation>
 
                   <v-text-field
                     prepend-inner-icon="mdi-email"
@@ -51,7 +74,7 @@
                 <v-text-field
                   prepend-inner-icon="mdi-lock"
                   v-model="registry.password"
-                  :rules="nameRules"
+                  :rules="passRule"
                   label="Password"
                   required
                   rounded
@@ -59,13 +82,16 @@
                   clearable
                   outlined
                   dense
-                  type="password"
+                  :append-icon="viewPass ? 'mdi-eye-off' : 'mdi-eye'"
+                  :type="viewPass ? 'password' : 'text'"
+                  @click:append="viewPass = !viewPass"
+                  
                 ></v-text-field>
 
                 <v-text-field
                   prepend-inner-icon="mdi-lock"
                   v-model="registry.Rpassword"
-                  :rules="repeateRassRule"
+                  :rules="repeateRassRule.concat(passwordConfirmationRule)"
                   label=" Repeat Password"
                   required
                   rounded
@@ -105,18 +131,22 @@
               </v-form>
             </v-card-text>
             <v-card-actions class="d-flex justify-center">
-                      <v-btn :disabled="!valid" color="primary" class="my-2"  rounded>Sign up</v-btn>
+                      <v-btn :disabled="!valid" color="primary" class="my-2" @click="register()" rounded>Sign up</v-btn>
 
-                      <v-btn color="error" class="mr-4"  outlined rounded>Sign in</v-btn>
+                      <v-btn color="error" class="mr-4"  outlined rounded @click="log">Sign in</v-btn>
  
                     </v-card-actions>
   </v-card>
 </template>
 
 <script>
+import Login from "./Login.vue";
+import { onLogin } from "./../vue-apollo";
+
 export default {
   name: "Register",
   data: () => ({
+        viewPass: true,
         registry: {
           username: '',
           email: '',
@@ -125,7 +155,16 @@ export default {
           checkbox: false,
           select: ''
         },
+        valid: true,
+        loading: false,
+        alert: {
+          if: false,
+          type: 'success',
+          text: 'text'
+        },
         items: ['La vega', 'Santiago','Santo Domingo'],
+        passRule: [
+          v => !!v || "This field is required"],
         nameRules: [
         v => !!v || "Username or E-mail is required",
         v =>
@@ -133,34 +172,101 @@ export default {
             "Username or E-mail must be less than 99 characters"
         ],
         repeateRassRule: [
-          v => !!v || "This field is required", v => v == this.registry.Rpassword || "Password must be the same"
-        ],
+          v => !!v || "This field is required"],
+          
         emailRules: [
         v => !!v || "E-mail is required",
         v => /.+@.+\..+/.test(v) || "E-mail must be valid"
         ],
   }),
 
-      methods: {
-          /*
-        reg(){
-          this.reset();
-          this.$store.commit("changePop", Register);
+    computed: {
+        passwordConfirmationRule() {
+            return () => (this.registry.password === this.registry.Rpassword) || 'Password must match'
         },
-        */
+    },
+
+      methods: {
+
+    register(){
+      // start loading
+          this.loading = true;
+          // We save the user input in case of an error
+          const registry = this.registry
+          // We clear it early to give the UI a snappy feel
+          /*
+          this.cred = {
+            username: "",
+            password: ""
+          };*/
+          // Call to the graphql mutation
+          this.$apollo.mutate({
+            // Query
+            mutation: require('../graphql/Register.gql'),
+            // Parameters
+            variables: {
+                      input: {
+                        email: registry.email,
+                        user: registry.username,
+                        password: registry.password
+                      }
+                    }
+          }).then((data) => {
+            // Result
+            //console.log(data);
+            onLogin(this.$apolloProvider.defaultClient, data.data.register, false);
+            this.loading = false;
+            this.alert = {
+              if: true,
+              type: 'success',
+              text: 'Registro correcto'
+            };
+            let close = this.close
+            setTimeout(function(){ close() }, 3000);
+
+          }).catch((error) => {
+            // Error
+            // We save the user input in case of an error
+            //this.cred = cred;
+            //console.error(error)
+            // We restore the initial user input
+            this.loading = false;
+
+            if(error.graphQLErrors[0].extensions.code == 'BAD_USER_INPUT'){
+            this.alert = {
+              if: true,
+              type: 'error',
+              text: error.graphQLErrors[0].message
+            };
+          }else{
+            //console.log(error);
+            this.alert = {
+              if: true,
+              type: 'error',
+              text: "error interno del servidor"
+            }; 
+            }
+          })
+      },
+          
+        log(){
+          this.reset();
+          this.$store.commit("changePop", Login);
+        },
+        
         close() {
             this.$emit("blurry", false);
             this.$store.commit("clearPop");
         },
         validate() {
-        this.$refs.login.validate();
+        this.$refs.register.validate();
         },
         reset() {
-        this.$refs.login.reset();
+        this.$refs.register.reset();
         },
         resetValidation() {
-        this.$refs.login.resetValidation();
+        this.$refs.register.resetValidation();
         }
-      },
+    },
 };
 </script>

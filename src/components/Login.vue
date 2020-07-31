@@ -68,7 +68,9 @@
               clearable
               outlined
               dense
-              type="password"
+              :append-icon="viewPass ? 'mdi-eye-off' : 'mdi-eye'"
+              :type="viewPass ? 'password' : 'text'"
+              @click:append="viewPass = !viewPass"
             ></v-text-field>
             <!-- 
                   <v-text-field
@@ -121,6 +123,7 @@ export default {
   name: "Login",
 
   data: () => ({
+    viewPass: true,
     alert: {
       if: false,
       type: 'success',
@@ -149,64 +152,64 @@ export default {
     login() {
       // start loading
       this.loading = true;
-    // We save the user input in case of an error
-    const cred = this.cred
-    // We clear it early to give the UI a snappy feel
-    /*
-    this.cred = {
-      username: "",
-      password: ""
-    };*/
-    // Call to the graphql mutation
-    this.$apollo.mutate({
-      // Query
-      mutation: require('../graphql/Login.gql'),
-      // Parameters
-      variables: {
-                input: {
-                  user: cred.username,
-                  password: cred.password
-                },
-                options: {
-                  keepLogged: this.keepLogged
-                }
-              }
-    }).then((data) => {
-      // Result
-      //console.log(data);
-      onLogin(this.$apolloProvider.defaultClient, data.data.login, this.keepLogged);
-      this.loading = false;
-      this.alert = {
-        if: true,
-        type: 'success',
-        text: 'credenciales correctas'
-      };
-      let close = this.close
-      setTimeout(function(){ close() }, 3000);
-
-    }).catch((error) => {
-      // Error
       // We save the user input in case of an error
-      //this.cred = cred;
-      //console.error(error)
-      // We restore the initial user input
-      this.loading = false;
+      const cred = this.cred
+      // We clear it early to give the UI a snappy feel
+      /*
+      this.cred = {
+        username: "",
+        password: ""
+      };*/
+      // Call to the graphql mutation
+      this.$apollo.mutate({
+        // Query
+        mutation: require('../graphql/Login.gql'),
+        // Parameters
+        variables: {
+                  input: {
+                    user: cred.username,
+                    password: cred.password
+                  },
+                  options: {
+                    keepLogged: this.keepLogged
+                  }
+                }
+      }).then((data) => {
+        // Result
+        //console.log(data);
+        onLogin(this.$apolloProvider.defaultClient, data.data.login, this.keepLogged);
+        this.loading = false;
+        this.alert = {
+          if: true,
+          type: 'success',
+          text: 'credenciales correctas'
+        };
+        let close = this.close
+        setTimeout(function(){ close() }, 3000);
 
-      if(error.graphQLErrors[0].extensions.code == 'BAD_USER_INPUT'){
-      this.alert = {
-        if: true,
-        type: 'error',
-        text: error.graphQLErrors[0].message
-      };
-    }else{
-      //console.log(error);
-      this.alert = {
-        if: true,
-        type: 'error',
-        text: "error interno del servidor"
-      }; 
-      }
-    })
+      }).catch((error) => {
+        // Error
+        // We save the user input in case of an error
+        //this.cred = cred;
+        //console.error(error)
+        // We restore the initial user input
+        this.loading = false;
+
+        if(error.graphQLErrors[0].extensions.code == 'BAD_USER_INPUT'){
+        this.alert = {
+          if: true,
+          type: 'error',
+          text: error.graphQLErrors[0].message
+        };
+      }else{
+        //console.log(error);
+        this.alert = {
+          if: true,
+          type: 'error',
+          text: "error interno del servidor"
+        }; 
+        }
+      })
     },
     reg() {
       this.reset();
