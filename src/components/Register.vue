@@ -2,7 +2,7 @@
   <v-card 
   color="rgb(255, 255, 255, .9)" 
   light 
-  class="elevation-12" height="550px" 
+  class="elevation-12" height="600px" 
   width="400px"
         :loading="loading"
         :disabled="loading"
@@ -164,7 +164,8 @@ export default {
         },
         items: ['La vega', 'Santiago','Santo Domingo'],
         passRule: [
-          v => !!v || "This field is required"],
+          v => !!v || "This field is required" 
+          ],
         nameRules: [
         v => !!v || "Username or E-mail is required",
         v =>

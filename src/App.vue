@@ -43,7 +43,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar app color="primary" dark elevate-on-scroll dense :blurry="blurry">
+    <v-app-bar fixed app color="primary" dark elevate-on-scroll dense :blurry="blurry">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
 
       <v-toolbar-title v-show="!searchVisible">
@@ -95,7 +95,7 @@
  
         
 
-                <v-autocomplete
+         <v-autocomplete
           v-model="select"
           :loading="loading"
           rounded
@@ -140,7 +140,13 @@
       </template>
     </v-app-bar>
 
+
+
     <v-content v-scroll="handleScroll" :blurry="blurry">
+    <v-alert class="topAlert ma-0 " type="error" dismissible icon="mdi-account" border="left" dense v-if="!$store.state.userInfo.verified && $store.state.logged">
+      Su cuenta no esta verificada. 
+      <v-btn x-small outlined dark color="white">Verificar ahora</v-btn>
+    </v-alert>
       <router-view></router-view>
     </v-content>
 

@@ -14,7 +14,8 @@ export default new Vuex.Store({
     userInfo: {
       username: '',
       email: '',
-      photo: ''
+      photo: '',
+      verified: false
     },
     popup: {
       active: false,
