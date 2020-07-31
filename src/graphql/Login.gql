@@ -5,6 +5,7 @@ mutation ($input: UserInput!, $options: loginOption) {
       username
       email
       photo
+      verified
     }
   }
 }

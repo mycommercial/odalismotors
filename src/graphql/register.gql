@@ -1,0 +1,11 @@
+mutation ($input: NewUserInput!) {
+  register( input: $input ) {
+    access_token
+    userInfo{
+      username
+      email
+      photo
+      verified
+    }
+  }
+}
