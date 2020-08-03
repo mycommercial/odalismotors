@@ -48,7 +48,7 @@
             hide-delimiters
             mandatory
             :continuous="false"
-            :show-arrows="true"
+            :show-arrows="false"
             dark
             height="auto"
             v-model="step"
@@ -185,6 +185,12 @@ export default {
       }).then((data) => {
         this.$store.state.userInfo.verified = data.data.verifyAccount.verified;
         this.loading = false;
+        this.$store.state.snackbar = {
+          value: true,
+          text: 'Su Cuenta Fue Verificada',
+          icon: 'mdi-account',
+          timeout: 3000
+        };
         this.close();
       }).catch((error) => {
         this.loading = false;

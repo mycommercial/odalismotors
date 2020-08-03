@@ -82,8 +82,6 @@ export function createProvider (options = {}) {
 
 // Manually call this when user log in
 export async function onLogin (apolloClient, data, keepLogged) {
-  console.log(data.access_token);
-  console.log(keepLogged);
   if (typeof localStorage !== 'undefined' && data.access_token && typeof sessionStorage !== 'undefined') {
     if(keepLogged){
       localStorage.setItem(AUTH_TOKEN, data.access_token);

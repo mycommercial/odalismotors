@@ -158,6 +158,24 @@
           <component class="popup" v-bind:is="$store.state.popup.component" @blurry="blurry = $event"></component>
       </transition>
     </v-overlay>
+    <v-snackbar
+      v-model="$store.state.snackbar.value"
+      color="success"
+      left
+      :timeout="$store.state.snackbar.timeout"
+      top
+    >
+    <v-icon>{{ $store.state.snackbar.icon }}</v-icon>
+      {{ $store.state.snackbar.text }}
+        <v-btn
+          dark
+          text
+          v-bind="attrs"
+          @click="$store.state.snackbar.value = false"
+        >
+          Cerrar
+        </v-btn>
+    </v-snackbar>
   </v-app>
 </template>
 
@@ -176,6 +194,7 @@ export default {
   },
 
   data: () => ({
+    snackbar: true,
     searchDialog: false,
     popup: false,
     loginRegister: true,

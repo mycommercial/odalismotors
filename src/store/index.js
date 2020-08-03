@@ -21,6 +21,12 @@ export default new Vuex.Store({
       active: false,
       component: "<template> <div> Clear </div> </template>"
     },
+    snackbar: {
+      value: false,
+      text: '',
+      icon: '',
+      timeout: 6000
+    }
   },
   mutations: {
     appbarExtReverse (state) {

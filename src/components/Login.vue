@@ -185,7 +185,13 @@ export default {
           text: 'credenciales correctas'
         };
         let close = this.close
-        setTimeout(function(){ close() }, 3000);
+        setTimeout(function(){ close() }, 1000);
+        this.$store.state.snackbar = {
+          value: true,
+          text: 'Credenciales Correctas',
+          icon: 'mdi-account',
+          timeout: 3000
+        };
 
       }).catch((error) => {
         // Error
