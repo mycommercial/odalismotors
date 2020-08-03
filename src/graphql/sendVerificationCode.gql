@@ -1,0 +1,5 @@
+query sendVerificationCode ($method: MethodInput!){
+    
+    sendVerificationCode(method: $method)
+    
+}

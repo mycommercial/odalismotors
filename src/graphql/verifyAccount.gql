@@ -1,0 +1,5 @@
+mutation verifyAccount ($input: CodeInput!) {
+  verifyAccount (input: $input) {
+    verified
+  }
+}

@@ -145,7 +145,7 @@
     <v-content v-scroll="handleScroll" :blurry="blurry">
     <v-alert class="topAlert ma-0 " type="error" dismissible icon="mdi-account" border="left" dense v-if="!$store.state.userInfo.verified && $store.state.logged">
       Su cuenta no esta verificada. 
-      <v-btn x-small outlined dark color="white">Verificar ahora</v-btn>
+      <v-btn x-small outlined dark color="white" @click="logVerify()">Verificar ahora</v-btn>
     </v-alert>
       <router-view></router-view>
     </v-content>
@@ -164,6 +164,7 @@
 <script>
 import Footer from "./components/Footer.vue";
 import Login from "./components/Login.vue";
+import Verify from "./components/Verify.vue";
 import { onLogout } from "./vue-apollo";
 //import Register from "./components/Register.vue";
 
@@ -223,9 +224,12 @@ export default {
   methods: {
     logReg() {
       this.blurry = true;
-      this.$store.commit('populatePop', { active: true, component: Login})
+      this.$store.commit('populatePop', { active: true, component: Login});
     },
-
+    logVerify() {
+      this.blurry = true;
+      this.$store.commit('populatePop', { active: true, component: Verify});
+    },
     logout() { onLogout(this.$apolloProvider.defaultClient); },
     querySelections(v) {
       this.loading = true;

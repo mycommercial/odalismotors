@@ -1,0 +1,8 @@
+query verificationMethods {
+  verificationMethods{
+    _id,
+    type,
+    action,
+    secretPath
+  }
+}
