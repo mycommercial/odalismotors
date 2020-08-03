@@ -7,7 +7,7 @@ import { createApolloClient, restartWebsockets } from 'vue-cli-plugin-apollo/gra
 Vue.use(VueApollo)
 
 // Name of the localStorage item
-const AUTH_TOKEN = 'apollo-token'
+const AUTH_TOKEN = 'mtoykenc'
 
 // Http endpoint
 const httpEndpoint = process.env.VUE_APP_GRAPHQL_HTTP || 'http://localhost:80/v1/orma'
@@ -42,7 +42,10 @@ const defaultOptions = {
   // cache: myCache
 
   // Override the way the Authorization header is set
-  // getAuth: (tokenName) => ...
+  getAuth: (tokenName) => {
+    const hash = window.localStorage.getItem(tokenName) ? window.localStorage.getItem(tokenName) : window.sessionStorage.getItem(tokenName);
+    return `Myc ${hash}`
+  },
 
   // Additional ApolloClient options
   // apollo: { ... }
@@ -79,8 +82,14 @@ export function createProvider (options = {}) {
 
 // Manually call this when user log in
 export async function onLogin (apolloClient, data, keepLogged) {
-  if (typeof localStorage !== 'undefined' && data.access_token && keepLogged) {
-    localStorage.setItem(AUTH_TOKEN, data.access_token)
+  console.log(data.access_token);
+  console.log(keepLogged);
+  if (typeof localStorage !== 'undefined' && data.access_token && typeof sessionStorage !== 'undefined') {
+    if(keepLogged){
+      localStorage.setItem(AUTH_TOKEN, data.access_token);
+    }else{
+    sessionStorage.setItem(AUTH_TOKEN, data.access_token);
+    }
   }
   if (apolloClient.wsClient) restartWebsockets(apolloClient.wsClient)
   try {
@@ -96,7 +105,8 @@ export async function onLogin (apolloClient, data, keepLogged) {
 // Manually call this when user log out
 export async function onLogout (apolloClient) {
   if (typeof localStorage !== 'undefined') {
-    localStorage.removeItem(AUTH_TOKEN)
+    localStorage.removeItem(AUTH_TOKEN);
+    sessionStorage.removeItem(AUTH_TOKEN);
   }
   if (apolloClient.wsClient) restartWebsockets(apolloClient.wsClient)
   try {
