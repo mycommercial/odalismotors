@@ -1,11 +1,9 @@
+#import "./UserInfoFragment.gql"
 mutation ($input: UserInput!, $options: loginOption) {
   login( input: $input , options: $options ) {
     access_token
     userInfo{
-      username
-      email
-      photo
-      verified
+      ...userInfo
     }
   }
 }

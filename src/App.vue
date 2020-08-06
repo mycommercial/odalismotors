@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-navigation-drawer app v-model="drawer">
+    <v-navigation-drawer v-if="$isMobile()" app v-model="drawer">
       <v-img :aspect-ratio="16/9" src="https://images.wsj.net/im-103414?width=620&size=1.5">
         <v-row :align="$store.state.logged ? 'end': 'center'" class="lightbox white--text pa-2 fill-height">
           <v-col>
@@ -8,12 +8,25 @@
               <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" v-if="$store.state.logged" />
               <v-icon v-if="!$store.state.logged" dark>mdi-account</v-icon>
             </v-avatar>
-            <div v-if="$store.state.logged" class="subheading">{{this.$store.state.userInfo.username}}</div>
+            <v-row align="center" class="subheading">
+            <div v-if="$store.state.logged" class="ml-3 subheading">{{this.$store.state.userInfo.username}}</div>
+                      <v-chip
+                      x-small
+                      color="yellow"
+                      text-color="white"
+                      v-if="this.$store.state.userInfo.seller"
+                      class="ml-1"
+                    >
+                    <v-icon x-small left>mdi-star</v-icon>
+                      vendedor
+                    </v-chip>
+              </v-row>
             <div v-if="$store.state.logged" class="body-2">
               {{this.$store.state.userInfo.email}}
               <v-icon v-if="$store.state.logged" dark>mdi-menu-down</v-icon>
             </div>
           </v-col>
+
         </v-row>
       </v-img>
       <div class="d-flex justify-center" v-if="!$store.state.logged">
@@ -44,7 +57,7 @@
     </v-navigation-drawer>
 
     <v-app-bar fixed app color="primary" dark elevate-on-scroll dense :blurry="blurry">
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <v-app-bar-nav-icon v-if="$isMobile()" @click.stop="drawer = !drawer" />
 
       <v-toolbar-title v-show="!searchVisible">
         <div class="d-flex align-center">
@@ -117,15 +130,93 @@
       <v-btn text icon @click="$store.commit('appbarExtReverse')">
         <v-icon>mdi-cart-outline</v-icon>
       </v-btn>
-
+      <!--
       <v-btn text icon v-if="!$vuetify.breakpoint.xs && $store.state.logged" @click="logout">
         <v-icon>mdi-logout</v-icon>
       </v-btn>
-
-      <v-btn text icon v-if="!$vuetify.breakpoint.xs && !$store.state.logged" @click="logReg">
-        <v-icon>mdi-account</v-icon>
+      -->
+      <v-btn color="#DC143C" v-if="!$vuetify.breakpoint.xs && !$store.state.logged" @click="logReg">
+        INICIAR SESION
       </v-btn>
+         <div class="text-xs-center">
+          <v-menu
+            v-if="!$isMobile() && $store.state.logged"
+            v-model="menu"
+            :close-on-content-click="false"
+            :nudge-width="200"
+            offset-x
+          >
+            <template v-slot:activator="{ on }">
+              <v-btn small fab dark color="white" v-on="on" class="elevation-0">
 
+                  <v-avatar size="40">
+                    <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="alt">
+                  </v-avatar>
+
+            </v-btn>
+            </template>
+
+            <v-card max-width="350">
+              <v-list>
+                <v-list-item>
+                  <v-list-item-avatar>
+                    <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John">
+                  </v-list-item-avatar>
+
+                  <v-list-item-content>
+                    <v-list-item-title>{{this.$store.state.userInfo.username}}
+
+                      <v-chip
+                      x-small
+                      color="yellow"
+                      text-color="white"
+                      v-if="this.$store.state.userInfo.seller"
+                    >
+                    <v-icon x-small left>mdi-star</v-icon>
+                      vendedor
+                    </v-chip>
+
+                    </v-list-item-title>
+                    <v-list-item-subtitle>{{this.$store.state.userInfo.email}}</v-list-item-subtitle>
+                  </v-list-item-content>
+
+                  <v-list-item-action>
+                    <v-btn
+                      icon
+                    >
+                      <v-icon>mdi-account-cog</v-icon>
+                    </v-btn>
+                  </v-list-item-action>
+                </v-list-item>
+              </v-list>
+
+              <v-divider></v-divider>
+      <v-list dense nav v-if="$store.state.logged">
+        <v-list-item v-for="item in items" :key="item.title" link :to="item.to" >
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+          <v-list-item>
+            <v-list-item-action>
+                              <v-switch color="purple"></v-switch>
+                  </v-list-item-action>
+                  <v-list-item-title>Modo oscuro</v-list-item-title>
+                </v-list-item>
+      </v-list>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+
+                <v-btn color="primary" text to="/menu_sys">Salir del Sistema</v-btn>
+                <v-btn color="error" text @click="logout">Cerrar sesión</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-menu>
+        </div>
       <template v-slot:extension v-if="$store.state.appbarExt">
         <v-spacer v-if="$vuetify.breakpoint.xs"></v-spacer>
 
@@ -170,7 +261,6 @@
         <v-btn
           dark
           text
-          v-bind="attrs"
           @click="$store.state.snackbar.value = false"
         >
           Cerrar
@@ -195,6 +285,7 @@ export default {
 
   data: () => ({
     snackbar: true,
+    menu: false,
     searchDialog: false,
     popup: false,
     loginRegister: true,
@@ -258,6 +349,7 @@ export default {
           return (e || "").toLowerCase().indexOf((v || "").toLowerCase()) > -1;
         });
         this.loading = false;
+        this.menu = false;
       }, 500);
     },
 
@@ -267,7 +359,8 @@ export default {
       } else {
         this.$store.commit("appbarExtShow");
       }
-    }
+    },
+
   },
   computed: {
     // logoReactive () {

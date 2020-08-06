@@ -1,0 +1,7 @@
+fragment userInfo on userInfo {
+    username
+    email
+    photo
+    verified
+    seller
+}

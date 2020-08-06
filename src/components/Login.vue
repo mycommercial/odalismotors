@@ -93,9 +93,9 @@
           </v-card-text>
 
           <v-card-actions class="d-flex justify-center">
-            <v-btn :disabled="!valid" color="primary" class="my-2" @click="login()" rounded>Sign in</v-btn>
+            <v-btn :disabled="!valid" color="primary" class="my-2" @click="login()" rounded>INICIAR SESION</v-btn>
 
-            <v-btn color="error" class="mr-4" @click="reg" outlined rounded>Sign up</v-btn>
+            <v-btn color="error" class="mr-4" @click="reg" outlined rounded>REGISTRATE</v-btn>
             <!--
                     <v-btn
                       color="warning"
@@ -135,7 +135,7 @@ export default {
       username: "",
       password: ""
     },
-    valid: true,
+    valid: false,
 
     nameRules: [
       v => !!v || "Username or E-mail is required",
@@ -188,7 +188,7 @@ export default {
         setTimeout(function(){ close() }, 1000);
         this.$store.state.snackbar = {
           value: true,
-          text: 'Credenciales Correctas',
+          text: 'Inicio Exitoso',
           icon: 'mdi-account',
           timeout: 3000
         };
@@ -208,7 +208,7 @@ export default {
           text: error.graphQLErrors[0].message
         };
       }else{
-        //console.log(error);
+        console.log(error);
         this.alert = {
           if: true,
           type: 'error',

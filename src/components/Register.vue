@@ -119,7 +119,7 @@
                   <v-checkbox
                     v-model="registry.checkbox"
                     :rules="[v => !!v || 'You must agree to continue!']"
-                    label="Do you agree privacy bla bla bla?"
+                    label="Do you agree privacy policy?"
                     required
                     rounded
                     filled
@@ -131,9 +131,9 @@
               </v-form>
             </v-card-text>
             <v-card-actions class="d-flex justify-center">
-                      <v-btn :disabled="!valid" color="primary" class="my-2" @click="register()" rounded>Sign up</v-btn>
+                      <v-btn :disabled="!valid" color="primary" class="my-2" @click="register()" rounded>REGISTRARSE</v-btn>
 
-                      <v-btn color="error" class="mr-4"  outlined rounded @click="log">Sign in</v-btn>
+                      <v-btn color="error" class="mr-4"  outlined rounded @click="log">INICIAR SESION</v-btn>
  
                     </v-card-actions>
   </v-card>
@@ -155,7 +155,7 @@ export default {
           checkbox: false,
           select: ''
         },
-        valid: true,
+        valid: false,
         loading: false,
         alert: {
           if: false,
@@ -240,7 +240,8 @@ export default {
               text: error.graphQLErrors[0].message
             };
           }else{
-            //console.log(error);
+            console.log(error);
+            console.log(registry);
             this.alert = {
               if: true,
               type: 'error',

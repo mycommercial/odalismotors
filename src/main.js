@@ -5,6 +5,8 @@ import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify';
 import { createProvider } from './vue-apollo'
+import VueMobileDetection from 'vue-mobile-detection'
+Vue.use(VueMobileDetection)
 
 Vue.config.productionTip = false
 
