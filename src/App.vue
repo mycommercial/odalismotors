@@ -93,6 +93,7 @@
         v-show="!$vuetify.breakpoint.xs"
       ></v-autocomplete>
 
+      <SearchBar class="mx-4"/>
       <v-spacer></v-spacer>
 
       <v-btn text icon v-if="$vuetify.breakpoint.xs" @click="searchDialog = true">
@@ -111,9 +112,11 @@
          <v-autocomplete
           v-model="select"
           :loading="loading"
+          @change="updatesuggestion"
           rounded
           dense
           :search-input.sync="search"
+          :items="sug"
           cache-items
           class="mx-4"
           flat
@@ -273,6 +276,7 @@
 import Footer from "./components/Footer.vue";
 import Login from "./components/Login.vue";
 import Verify from "./components/Verify.vue";
+import SearchBar from "./components/SearchBar.vue";
 import { onLogout } from "./vue-apollo";
 //import Register from "./components/Register.vue";
 
@@ -281,6 +285,7 @@ export default {
 
   components: {
     Footer,
+    SearchBar,
   },
 
   data: () => ({
@@ -302,6 +307,7 @@ export default {
       }
     ],
     search: null,
+    sug: [],
     searchVisible: false,
     select: null,
     states: ["Alabama", "Alaska", "American Samoa", "Arizona", "Arkansas"],
@@ -345,7 +351,7 @@ export default {
       this.loading = true;
       // Simulated ajax query
       setTimeout(() => {
-        this.items = this.states.filter(e => {
+        this.sug = this.states.filter(e => {
           return (e || "").toLowerCase().indexOf((v || "").toLowerCase()) > -1;
         });
         this.loading = false;
