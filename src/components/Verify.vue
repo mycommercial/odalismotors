@@ -4,7 +4,7 @@
           light
           class="elevation-12"
           max-height="550px"
-          max-width="600px"
+          max-width="700px"
           :loading="loading"
           :disabled="loading"
         >
@@ -29,7 +29,7 @@
           <div class="d-flex align-center justify-center">
             <span
               style="color: #757575; font-family: 'Arial Black', Gadget, sans-serif; font-size: 27px;"
-              class="my-5"
+              class="my-3"
             >VERIFICAR</span>
           </div>
             <v-alert
@@ -37,6 +37,7 @@
               text
               :type="alert.type"
               v-model="alert.if"
+              
             >
               {{ alert.text }}
             </v-alert>
@@ -52,22 +53,23 @@
             dark
             height="auto"
             v-model="step"
-            class="mb-5 mx-3"
         >
             <v-carousel-item>
+              <v-card-text>
                 <span style="color: #757575;" class="ma-1 mx-7 d-flex align-center justify-center">
-                    selecciona el metodo de verificacion: 
+                    Seleccione método de verificación: 
                     </span>
             <v-row no-gutters>
               <v-col cols="12" sm="12">
-                <v-card max-width="325px" class="my-1" tile light v-for="method in verificationMethods" :key="method._id" @click="sendVerificationCode(method)">
-                    <v-card-title>
-                    <v-icon color="primary">mdi-{{method.type}}</v-icon>
-                    {{method.secretPath}}
-                    </v-card-title>
+                <v-card shaped outlined max-width="325px" class="my-1" tile light v-for="method in verificationMethods" :key="method._id" @click="sendVerificationCode(method)">
+                    <v-card-text>
+                    <v-icon class="mr-1" color="primary">mdi-{{method.type}}</v-icon>
+                    <span style="color: #000000;">{{method.secretPath}}</span>
+                    </v-card-text>
                 </v-card>
               </v-col>
             </v-row>
+                </v-card-text>
             </v-carousel-item>
 
             <v-carousel-item>
@@ -96,7 +98,7 @@
             <v-btn color="error" class="mr-4" @click="Cancel" outlined rounded>Cancelar</v-btn>
           </v-card-actions>
           <div class="d-flex justify-center">
-            <v-btn light text x-small @click="noResponse">
+            <v-btn light text x-small @click="noResponse()">
               No Recibí Código Reenviar
               <v-icon small>mdi-arrow-right</v-icon>
             </v-btn>
@@ -130,7 +132,8 @@ export default {
     loading: false,
     keepLogged: false,
     code: '',
-    valid: true,
+    valid: false,
+    currentMethod: -2,
 
     codeRules: [
       v => !!v || "Código Requerido",
@@ -187,7 +190,7 @@ export default {
         this.loading = false;
         this.$store.state.snackbar = {
           value: true,
-          text: 'Su Cuenta Fue Verificada',
+          text: 'Su vuenta ha sido verificada',
           icon: 'mdi-account',
           timeout: 3000
         };
@@ -216,9 +219,14 @@ export default {
       this.close();
     },
 
-    noResponse(){},
+    noResponse(){
+      console.log('nores');
+      this.alert.if = false;
+      this.sendVerificationCode(this.verificationMethods[this.currentMethod]);
+    },
     //resend verificacion code
     sendVerificationCode(method) {
+      this.currentMethod = this.verificationMethods.indexOf(method);
       this.loading = true;
       
      this.$apollo.query({
@@ -232,6 +240,11 @@ export default {
             }
         }
       }).then(() => {
+        this.alert = {
+          if: true,
+          type: 'success',
+          text: 'Código enviado.'
+        };
         this.loading = false;
         this.step = 1
       }).catch((error) => {
