@@ -1,0 +1,8 @@
+query searchSuggest ($search: String){
+    
+    searchSuggest(search: $search){
+        Suggest
+        history
+    }
+    
+}
