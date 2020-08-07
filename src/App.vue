@@ -76,24 +76,8 @@
         </div>
       </v-toolbar-title>
 
-      <v-autocomplete
-        v-model="select"
-        :loading="loading"
-        rounded
-        dense
-        :search-input.sync="search"
-        cache-items
-        class="mx-4"
-        flat
-        hide-no-data
-        hide-details
-        label="Buscar Producto Marca Modelo etc..."
-        solo-inverted
-        :append-icon="searchVisible ? '' : 'mdi-magnify'"
-        v-show="!$vuetify.breakpoint.xs"
-      ></v-autocomplete>
-
-      <SearchBar class="mx-4"/>
+      <SearchBar v-if="!$isMobile()" class="mx-4"/>
+      
       <v-spacer></v-spacer>
 
       <v-btn text icon v-if="$vuetify.breakpoint.xs" @click="searchDialog = true">
@@ -106,26 +90,8 @@
           <v-btn icon dark @click="searchDialog = false">
             <v-icon>mdi-arrow-left</v-icon>
           </v-btn>
- 
-        
 
-         <v-autocomplete
-          v-model="select"
-          :loading="loading"
-          @change="updatesuggestion"
-          rounded
-          dense
-          :search-input.sync="search"
-          :items="sug"
-          cache-items
-          class="mx-4"
-          flat
-          hide-no-data
-          hide-details
-          label="Buscar Producto Marca Modelo etc..."
-          solo-inverted
-          :append-icon="searchVisible ? '' : 'mdi-magnify'"
-        ></v-autocomplete>
+          <SearchBar class="mx-4"/>
         </v-toolbar>
         </v-card>
       </v-dialog>
@@ -310,7 +276,6 @@ export default {
     sug: [],
     searchVisible: false,
     select: null,
-    states: ["Alabama", "Alaska", "American Samoa", "Arizona", "Arkansas"],
     tab: null,
     tags: [
       "Work",
@@ -333,7 +298,7 @@ export default {
   }),
 
   watch: {
-    search(val) {
+    select(val) {
       val && val !== this.select && this.querySelections(val);
     }
   },

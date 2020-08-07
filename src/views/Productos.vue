@@ -93,7 +93,11 @@ export default {
   },
   props: {
     Department: String,
-    userName: String
+    search: String,
+    pagination: {
+      cursor: Number,
+      limit: Number
+    }
   },
     data: () => ({
       drawer: true,
@@ -120,11 +124,7 @@ export default {
 
      created() {
        this.products = productos.product;
-       
-       if (process.env.NODE_ENV != 'production') {
-         this.console.log(this.userId, this.userName)
-       }
-
+       console.log(this.$route.query.q);
 
       
     }

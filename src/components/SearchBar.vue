@@ -12,13 +12,29 @@
         solo-inverted
         hide-no-data
         hide-selected
-        item-text="Description"
-        item-value="API"
+        hide-details
+        item-text="Suggest"
+        item-value="Suggest"
         label="Buscar Producto Marca Modelo etc..."
         return-object
         append-icon="mdi-magnify"
-        class="mx-4"
-      ></v-autocomplete>
+        @keypress.enter="load()"
+        @click:append="load()"
+      >
+        <template v-slot:item="data">
+                        <template v-if="typeof data.item !== 'object'">
+                          <v-list-item-content v-text="data.item"></v-list-item-content>
+                        </template>
+                        <template v-else>
+                          <v-list-item-icon v-if="data.item.history">
+                            <v-icon small>mdi-history</v-icon>
+                          </v-list-item-icon>
+                          <v-list-item-content>
+                            <v-list-item-title v-text="data.item.Suggest"></v-list-item-title>
+                          </v-list-item-content>
+                        </template>
+                      </template>
+              </v-autocomplete>
 </template>
 
 <script>
@@ -29,27 +45,23 @@
       isLoading: false,
       model: null,
       search: null,
-      blur: false,
+      blur: true,
     }),
 
-    computed: {
-      fields () {
-        if (!this.model) return []
+    methods: {
+      load() {
+        this.$router.push({name: 'productos', params: { Department: "all" }, query: { q: this.model.Suggest }});
+      }
+    },
 
-        return Object.keys(this.model).map(key => {
-          return {
-            key,
-            value: this.model[key] || 'n/a',
-          }
-        })
-      },
+    computed: {
       items () {
         return this.entries.map(entry => {
-          const Description = entry.Description.length > this.descriptionLimit
-            ? entry.Description.slice(0, this.descriptionLimit) + '...'
-            : entry.Description
+          const Suggest = entry.Suggest.length > this.descriptionLimit
+            ? entry.Suggest.slice(0, this.descriptionLimit) + '...'
+            : entry.Suggest
 
-          return Object.assign({}, entry, { Description })
+          return Object.assign({}, entry, { Suggest })
         })
       },
     },
@@ -65,17 +77,46 @@
         this.isLoading = true
 
         // Lazily load input items
-        fetch('https://api.publicapis.org/entries')
-          .then(res => res.json())
-          .then(res => {
-            const { count, entries } = res
-            this.count = count
-            this.entries = entries
-          })
-          .catch(err => {
-            console.log(err)
-          })
-          .finally(() => (this.isLoading = false))
+        // fetch('https://api.publicapis.org/entries')
+        //   .then(res => res.json())
+        //   .then(res => {
+        //     const { count, entries } = res
+        //     this.count = count
+        //     this.entries = entries
+        //   })
+        //   .catch(err => {
+        //     console.log(err)
+        //   })
+        //   .finally(() => (this.isLoading = false))
+
+     this.$apollo.query({
+        // Query
+        query: require('../graphql/searchSuggest.gql'),
+        variables: {
+          search: this.search,
+        }
+      }).then((data) => {
+          this.entries = data.data.searchSuggest;
+        this.isLoading = false;
+
+      }).catch((err) => {
+        console.log(err)
+
+      //   if(error.graphQLErrors[0].extensions.code == 'BAD_USER_INPUT'){
+      //   this.alert = {
+      //     if: true,
+      //     type: 'error',
+      //     text: error.graphQLErrors[0].message
+      //   };
+      // }else{
+      //   console.log(error);
+      //   this.alert = {
+      //     if: true,
+      //     type: 'error',
+      //     text: "error interno del servidor"
+      //   }; 
+      //   }
+      }).finally(() => (this.isLoading = false))
       },
     },
   }
