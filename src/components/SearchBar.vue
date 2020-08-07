@@ -18,18 +18,18 @@
         label="Buscar Producto Marca Modelo etc..."
         return-object
         append-icon="mdi-magnify"
-        @keypress.enter="load()"
-        @click:append="load()"
+        @keypress.enter="load(search)"
+        @click:append="load(search)"
       >
         <template v-slot:item="data">
                         <template v-if="typeof data.item !== 'object'">
                           <v-list-item-content v-text="data.item"></v-list-item-content>
                         </template>
                         <template v-else>
-                          <v-list-item-icon v-if="data.item.history">
+                          <v-list-item-icon @click="load(data.item.Suggest)" v-if="data.item.history">
                             <v-icon small>mdi-history</v-icon>
                           </v-list-item-icon>
-                          <v-list-item-content>
+                          <v-list-item-content @click="load(data.item.Suggest)">
                             <v-list-item-title v-text="data.item.Suggest"></v-list-item-title>
                           </v-list-item-content>
                         </template>
@@ -49,8 +49,9 @@
     }),
 
     methods: {
-      load() {
-        this.$router.push({name: 'productos', params: { Department: "all" }, query: { q: this.model.Suggest }});
+      load(Suggest) {
+        this.$router.push({name: 'productos', params: { Department: "all" }, query: { q: Suggest }});
+        this.entries = [];
       }
     },
 
@@ -69,8 +70,7 @@
     watch: {
       search () {
         // Items have already been loaded
-        if (this.items.length > 0) return
-
+        //if (this.items.length > 0) return
         // Items have already been requested
         if (this.isLoading) return
 
