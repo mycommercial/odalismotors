@@ -1,0 +1,22 @@
+query products ($search: String, $category: String, $filters: [filter], $pagination: pagination ){
+    
+  products(search: $search, category: $category, filters: $filters, pagination: $pagination ){
+    pageinf{
+      cursor
+      currentpage
+      results
+    }
+    products{
+        id_product
+        name
+        description
+        photos
+        rate
+        publisher
+        created_at
+        updated_at
+        category
+    }
+  }
+    
+}
