@@ -42,11 +42,11 @@
         </v-col>
         <v-col cols="12" sm="7">
 
-          <v-card elevation="1" max-height="250px" class="ma-2" v-for="product in products" :key="product">
+          <v-card elevation="1" max-height="250px" class="ma-2" v-for="product in products" :key="product.id_product">
             <v-row no-gutters>
               <v-col cols="12" sm="4">
                 <v-img 
-                  :src="product.img"
+                  :src="product.photos[0]"
                   lazy-src="https://picsum.photos/id/11/10/6"
                   class="grey lighten-2"
                   contain
@@ -57,7 +57,7 @@
               <v-col cols="12" sm="8">
                 <v-row no-gutters class="pl-4">
                   <v-col cols="12">
-                    <router-link :to="{name: 'viewpro',  params: { _id : product._id }}"  class="clear-link"><h3 class="clear-link">{{ product.name }}</h3></router-link>
+                    <router-link :to="{name: 'viewpro',  params: { _id : product.id_product }}"  class="clear-link"><h3 class="clear-link">{{ product.name }}</h3></router-link>
                   </v-col>
 
                   <v-col cols="3">
@@ -70,8 +70,8 @@
           </v-card>
 
          <v-pagination
-           v-model="page"
-           :length="750"
+           v-model="pageinf.currentpage"
+           :length="pageinf.results"
            :total-visible="10"
            circle
               ></v-pagination>
@@ -85,7 +85,7 @@
 </template>
 
 <script>
-import productos from './../simulated/products.json'
+//import productos from './../simulated/products.json'
 
 export default {
   name: 'productos',
@@ -93,19 +93,22 @@ export default {
   },
   props: {
     Department: String,
-    search: String,
-    pagination: {
-      cursor: Number,
-      limit: Number
-    }
+    search: String
   },
     data: () => ({
+      pageinf:{
+      cursor: 0,
+      currentpage: 0,
+      results: 0
+      },
       drawer: true,
+      loading: false,
       radioGroup: 1,
       page: 1,
       products: [],
       nuevo: false,
       usado: false,
+      pagination: { limit: 10, cursor: 0},
       items: [
         { icon: 'mdi-trending-up', text: 'Most Popular' },
         { icon: 'mdi-subscriptions', text: 'Subscriptions' },
@@ -123,9 +126,28 @@ export default {
     }),
 
      created() {
-       this.products = productos.product;
-       console.log(this.$route.query.q);
+       this.loading = true;
 
+      this.$apollo.query({
+        // Query
+        query: require('../graphql/products.gql'),
+        variables: {
+          search: this.$route.query.q,
+          category: this.$route.params.category,
+          filters: this.$route.params.filters,
+          pagination: this.$route.params.pagination ? this.$route.params.pagination : this.pagination
+        }
+      }).then((data) => {
+          this.products = data.data.products.products;
+          this.pageinf = data.data.products.pageinf;
+        this.loading = false;
+
+      }).catch((err) => {
+        console.log(err)
+
+      }).finally(() => (this.loading = false));
+
+      console.log(this.products);
       
     }
 
