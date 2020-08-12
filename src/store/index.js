@@ -5,8 +5,10 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    cart: [],
     appbarExt: true,
     logged: false,
+    invited: false,
     logo: {
       O: "MY",
       M: "COMMERCIAL"
@@ -56,10 +58,18 @@ export default new Vuex.Store({
     },
     populatePop (state, popup) {
       state.popup = popup;
+    },
+    addCart(state, prod){
+      state.cart.push(prod);
     }
   },
   actions: {
   },
   modules: {
+  },
+  getters: {
+    cartCount(state){
+      return state.cart.length;
+    }
   }
 })

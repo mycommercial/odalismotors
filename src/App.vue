@@ -95,10 +95,18 @@
         </v-toolbar>
         </v-card>
       </v-dialog>
-
-      <v-btn text icon @click="$store.commit('appbarExtReverse')">
-        <v-icon>mdi-cart-outline</v-icon>
-      </v-btn>
+        <v-badge
+          :content="this.$store.getters.cartCount"
+          :value="this.$store.getters.cartCount"
+          color="green"
+          overlap
+          class="ma-5"
+        >
+        <v-btn text @click="$store.commit('appbarExtReverse')">
+          <v-icon>mdi-cart-outline</v-icon>
+        </v-btn>
+      </v-badge>
+     
       <!--
       <v-btn text icon v-if="!$vuetify.breakpoint.xs && $store.state.logged" @click="logout">
         <v-icon>mdi-logout</v-icon>
@@ -180,7 +188,7 @@
               <v-card-actions>
                 <v-spacer></v-spacer>
 
-                <v-btn color="primary" text to="/menu_sys">Salir del Sistema</v-btn>
+                <v-btn color="primary" small text to="/menu_sys">Reportar un problema</v-btn>
                 <v-btn color="error" text @click="logout">Cerrar sesión</v-btn>
               </v-card-actions>
             </v-card>
@@ -207,7 +215,7 @@
       Su cuenta no esta verificada. 
       <v-btn x-small outlined dark color="white" @click="logVerify()">Verificar ahora</v-btn>
     </v-alert>
-      <router-view></router-view>
+      <router-view @blurry="blurry = $event"></router-view>
     </v-content>
 
     <Footer :blurry="blurry" />
@@ -264,7 +272,7 @@ export default {
     drawer: false,
     loading: false,
     items: [
-      { title: "Dashboard", icon: "mdi-view-dashboard" },
+      { title: "Area Personal", icon: "mdi-view-dashboard" },
       { title: "Citas", icon: "mdi-calendar-range" },
       {
         title: "Maestro De Productos",
