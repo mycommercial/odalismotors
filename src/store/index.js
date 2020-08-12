@@ -5,7 +5,6 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    cart: [],
     appbarExt: true,
     logged: false,
     invited: false,
@@ -18,7 +17,8 @@ export default new Vuex.Store({
       email: '',
       photo: '',
       verified: false,
-      seller: false
+      seller: false,
+      cart: []
     },
     popup: {
       active: false,
@@ -59,8 +59,9 @@ export default new Vuex.Store({
     populatePop (state, popup) {
       state.popup = popup;
     },
-    addCart(state, prod){
-      state.cart.push(prod);
+    updateCart(state, prods){
+
+      state.userInfo.cart = prods;
     }
   },
   actions: {
@@ -69,7 +70,7 @@ export default new Vuex.Store({
   },
   getters: {
     cartCount(state){
-      return state.cart.length;
+      return state.userInfo.cart.length;
     }
   }
 })

@@ -271,7 +271,21 @@ name: 'viewpro',
           this.$store.commit('populatePop', { active: true, component: Login});
           return
         }else{
-          this.$store.commit('addCart', {id: this.$route.params._id, amount: this.amount, color: this.color});
+            this.$apollo.query({
+            // Query
+            query: require('../graphql/Addcart.gql'),
+            variables: {
+              input: {id: this.$route.params._id, amount: this.amount, color: this.color},
+            }
+          }).then((data) => {
+
+            this.$store.commit('updateCart', data.data.addcart);
+
+          }).catch((err) => {
+            console.log(err)
+
+          });
+          
         }
       }
     },

@@ -192,7 +192,7 @@ export default {
           icon: 'mdi-account',
           timeout: 3000
         };
-
+        
       }).catch((error) => {
         // Error
         // We save the user input in case of an error

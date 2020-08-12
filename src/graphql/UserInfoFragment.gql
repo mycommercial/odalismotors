@@ -4,4 +4,5 @@ fragment userInfo on userInfo {
     photo
     verified
     seller
+    cart
 }

@@ -114,4 +114,7 @@ export async function onLogout (apolloClient) {
     console.log('%cError on cache reset (logout)', 'color: orange;', e.message)
   }
   store.state.logged = false;
+  store.state.userInfo = {
+    cart: [],
+  };
 }

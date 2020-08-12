@@ -1,0 +1,5 @@
+query addcart ($input: JSON){
+    
+    addcart(input: $input)
+    
+}
