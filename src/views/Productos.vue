@@ -1,6 +1,10 @@
 <template>
   <v-app>
-
+    <v-progress-linear
+      indeterminate
+      color="yellow darken-2"
+      v-if="loading"
+    ></v-progress-linear>
     <v-row no-gutters>
         <v-col cols="12" sm="2">
           <v-list dense expand>
@@ -74,11 +78,31 @@
            :length="pageinf.results"
            :total-visible="10"
            circle
+           @next="load('NEXT')"
+           @previous="load('PREV')"
+           @input="load('PAGE', true)"
               ></v-pagination>
 
         </v-col>
         <v-col cols="12" sm="3">
-          col 4
+         <v-card v-for="i in 3" :key="i" outlined  height="175" width="350" class="ml-6 mt-12 mb-12 d-flex justify-center" href="http://localhost:8080/" to="/">
+                <v-list-item>
+                  <v-card elevation="2" class="mr-3">
+                    <v-img lazy-src="https://picsum.photos/id/11/10/6" src="./../assets/Ofertas/myc.png" height="50" width="50" contain aspect-ratio="1">
+                    </v-img>
+                  </v-card>
+                  
+                  <v-list-item-content>
+                    <v-list-item-title class="overline">TU ANUCIO PERFECTO</v-list-item-title>
+                    <v-list-item-subtitle>Ads by 
+                      <span class="logo1">{{ $store.state.logo.O }}</span>
+                      <span class="logo2">{{ $store.state.logo.M }}</span>
+                    </v-list-item-subtitle>
+                  </v-list-item-content>
+
+                  <v-icon>mdi-open-in-new</v-icon>
+                </v-list-item>
+          </v-card>
         </v-col>
     </v-row>
   </v-app>
@@ -99,7 +123,8 @@ export default {
       pageinf:{
       cursor: 0,
       currentpage: 0,
-      results: 0
+      results: 0,
+      searching: null
       },
       drawer: true,
       loading: false,
@@ -108,7 +133,7 @@ export default {
       products: [],
       nuevo: false,
       usado: false,
-      pagination: { limit: 10, cursor: 0},
+      pagination: { limit: 10, cursor: 0, page: 1, type: null},
       items: [
         { icon: 'mdi-trending-up', text: 'Most Popular' },
         { icon: 'mdi-subscriptions', text: 'Subscriptions' },
@@ -116,39 +141,65 @@ export default {
         { icon: 'mdi-featured-play-list', text: 'Playlists' },
         { icon: 'mdi-watch-later', text: 'Watch Later' },
       ],
-      items2: [
-        { picture: 28, text: 'Joseph' },
-        { picture: 38, text: 'Apple' },
-        { picture: 48, text: 'Xbox Ahoy' },
-        { picture: 58, text: 'Nokia' },
-        { picture: 78, text: 'MKBHD' },
-      ],
     }),
+    methods: {
+      load(ACTION, PAGE){
+        this.loading = true;
+        
+        const search = this.$route.query.q ? this.$route.query.q : this.searching;
+        const category = this.$route.params.category;
+        const filters = this.$route.params.filters;
+        const pagination = this.$route.params.pagination ? this.$route.params.pagination : this.pagination;
+        
 
-     created() {
-       this.loading = true;
-
-      this.$apollo.query({
-        // Query
-        query: require('../graphql/products.gql'),
-        variables: {
-          search: this.$route.query.q,
-          category: this.$route.params.category,
-          filters: this.$route.params.filters,
-          pagination: this.$route.params.pagination ? this.$route.params.pagination : this.pagination
+        if (ACTION) {
+          pagination.type = ACTION;
         }
-      }).then((data) => {
-          this.products = data.data.products.products;
-          this.pageinf = data.data.products.pageinf;
-        this.loading = false;
+       if (ACTION == 'NEXT' || ACTION == 'PREV') {
+          pagination.cursor = this.pageinf.cursor;
+       }
 
-      }).catch((err) => {
-        console.log(err)
+        if (PAGE) {
+          pagination.page = this.pageinf.currentpage;
+           pagination.cursor = -1;
+        }
+        console.log(pagination)
+        console.log(search)
+        this.$apollo.query({
+          // Query
+          query: require('../graphql/products.gql'),
+          variables: {
+            search: search,
+            category: category,
+            filters: filters,
+            pagination: pagination
+          }
+        }).then((data) => {
+            this.products = data.data.products.products;
+            this.pageinf = data.data.products.pageinf;
+          this.loading = false;
 
-      }).finally(() => (this.loading = false));
+        }).catch((err) => {
+          console.log(err)
 
-      console.log(this.products);
-      
+        }).finally(() => (this.loading = false));
+
+        console.log(this.products);
+        console.log( this.pageinf);
+         
+      }
+    },
+    watch: {
+      $route(to) {
+        if (to.name == 'productos' && to.query.q != this.searching) {
+          this.searching = to.query.q;
+          this.load();
+        }
+      }
+
+    },
+     mounted() {
+      this.load();
     }
 
 }
