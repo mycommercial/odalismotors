@@ -107,7 +107,7 @@
           </v-card-actions>
           <div class="d-flex justify-center">
             <v-btn text x-small @click="res">
-              Forgot Username / Password?
+              olvide Usuario / Contraseña?
               <v-icon small>mdi-arrow-right</v-icon>
             </v-btn>
           </div>

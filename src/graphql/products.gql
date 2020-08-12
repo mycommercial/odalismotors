@@ -5,6 +5,7 @@ query products ($search: String, $category: String, $filters: [filter], $paginat
       cursor
       currentpage
       results
+      searching
     }
     products{
         id_product
