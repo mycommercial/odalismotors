@@ -1,0 +1,15 @@
+query product ($ID: Int!){
+    
+    product(ID: $ID){
+        name
+        description
+        photos
+        rate
+        publisher
+        created_at
+        updated_at
+        category
+        overview
+    }
+    
+}
