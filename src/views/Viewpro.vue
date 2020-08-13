@@ -6,7 +6,7 @@
       v-if="loading"
     ></v-progress-linear>
     <div class="offer ma-0 pa-0 pa-1 pl-1" @click="gooffer" >
-      <span>Obten un 20% de descuento en todos nuestros productos <v-btn x-small text outlined color="#f0f8ff">click aqui</v-btn> </span>
+      <span>Obten un 20% de descuento en todos nuestros productos <v-btn x-small text outlined color="#f0f8ff" @click="opencupon()">click aqui</v-btn> </span>
     </div>
     <v-row no-gutters class="mt-1">
       <v-col class="pictures ml-2" cols="12" sm="4" align="center" justify="center">
@@ -65,23 +65,23 @@
                       x-small
                       color="yellow"
                       text-color="white"
-                      v-if="true"
+                      v-if="product.experience"
                     >
                     <v-icon x-small left>mdi-star</v-icon>
                       top seller
                     </v-chip>
-                                       <v-chip
+                   <v-chip
                       x-small
                       color="green"
                       text-color="white"
-                      v-if="true"
+                      v-if="product.local"
                     >
-                    <v-icon x-small left>mdi-truck</v-icon>
+                    <v-icon  x-small left>mdi-truck</v-icon>
                       envio rapido
                     </v-chip>
         <v-divider></v-divider>
           <div class="ma-4">
-            <span class="sup" >RD$</span> <span class="price">11300</span><span class="sup">95</span><span> + Envio gratis</span>
+            <span class="sup" >RD$</span> <span class="price">{{ product.price }}</span><span class="sup">{{ product.dot }}</span><span v-if="product.shipping > 0"> + {{product.shipping}}  De envio</span><span v-else> + Envio gratis</span>
             <p style="font-family: cursive;">“{{ product.description }}”</p>
             <v-text-field
               v-model="amount"
@@ -90,11 +90,13 @@
               outlined
               type="number"
             ></v-text-field>
+            <!--
             <v-select
               :items="colores"
               label="Color"
               v-model="color"
             ></v-select>
+            -->
           </div>
           <v-card color="grey lighten-2" class="ma-4 pt-1" >
             <v-row class="d-flex justify-center">
@@ -103,9 +105,9 @@
             </v-row>
             <v-row class="d-flex justify-center">
               
-              <v-btn class="my-2" :color="fav ? '#DC143C' : ''" text x-small @click="favoriteAdd, fav = !fav">
-                <v-icon small>{{ fav ? 'mdi-heart' : 'md.,,"l1i-heart-outline' }}</v-icon>
-                {{ fav ? 'Eliminar de favoritos' : 'Añadir a favoritos' }}
+              <v-btn class="my-2" :color=" product.favorite ? '#DC143C' : 'blue'" text x-small @click="product.favorite = !product.favorite, favorite($route.params._id, product.favorite)">
+                <v-icon small>{{  product.favorite ? 'mdi-heart' : 'mdi-heart-outline' }}</v-icon>
+                {{  product.favorite ? 'Eliminar de favoritos' : 'Añadir a favoritos' }}
               </v-btn>
             
             </v-row>
@@ -205,6 +207,7 @@
 <script>
 import Login from "./../components/Login.vue";
 import invi from "./../components/Invita2.vue";
+import cupon from "./../components/Coupon.vue";
 
 export default {
 name: 'viewpro',
@@ -271,23 +274,55 @@ name: 'viewpro',
           this.$store.commit('populatePop', { active: true, component: Login});
           return
         }else{
-            this.$apollo.query({
+            this.$apollo.mutate({
             // Query
-            query: require('../graphql/Addcart.gql'),
+            mutation: require('../graphql/Addcart.gql'),
             variables: {
-              input: {id: this.$route.params._id, amount: this.amount, color: this.color},
+              input: {name: 'product', value: `${this.$route.params._id}`, amount: parseInt(this.amount), color: this.color},
             }
           }).then((data) => {
 
             this.$store.commit('updateCart', data.data.addcart);
-
+              this.$store.state.snackbar = {
+                value: true,
+                text: `X${this.amount} Añadidos al carrito`,
+                icon: 'mdi-cart',
+                timeout: 3000
+              };
           }).catch((err) => {
             console.log(err)
 
           });
           
         }
-      }
+      },
+      async favorite(ID, ADD) {
+         this.chunkFav = ADD;
+
+        if (!this.$store.state.logged) {
+          this.$emit('blurry', true);
+          this.$store.commit('populatePop', { active: true, component: Login});
+          return !this.chunkFav;
+        }
+
+        await this.$apollo.mutate({
+            // Query
+            mutation: require('../graphql/favoriteChange.gql'),
+            // Parameters
+            variables: {
+                    ID: ID,
+                    action: ADD
+                    }
+          }).then((data) => {
+            this.chunkFav = data.data.favoriteChange;
+          }).catch((error) => { console.error(error)});
+        
+        return ADD;
+      },
+      opencupon(){
+        this.$emit('blurry', true);
+          this.$store.commit('populatePop', { active: true, component: cupon});
+      },
     },
     
      async created() {

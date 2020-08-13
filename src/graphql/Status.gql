@@ -1,0 +1,6 @@
+#import "./UserInfoFragment.gql"
+query status{
+    status{
+        ...userInfo
+    } 
+}

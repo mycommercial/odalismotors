@@ -10,6 +10,16 @@ query product ($ID: Int!){
         updated_at
         category
         overview
+        experience
+        price
+        dot
+        allow_return
+        shipping
+        worldwide
+        local
+        promotion
+        new
+        favorite
     }
     
 }

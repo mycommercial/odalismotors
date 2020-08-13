@@ -100,9 +100,12 @@
           :value="this.$store.getters.cartCount"
           color="green"
           overlap
-          class="ma-5"
+          class="ma-5 mx-1"
         >
-        <v-btn text @click="$store.commit('appbarExtReverse')">
+        <v-btn icon text v-if="!$store.state.logged" @click="logReg">
+          <v-icon>mdi-cart-outline</v-icon>
+        </v-btn>
+        <v-btn icon text v-else to="/cart" >
           <v-icon>mdi-cart-outline</v-icon>
         </v-btn>
       </v-badge>
@@ -277,7 +280,7 @@ export default {
       {
         title: "Maestro De Productos",
         icon: "mdi-package-variant",
-        to: "maestroproductos"
+        to: "/maestroproductos"
       }
     ],
     search: null,
@@ -321,17 +324,29 @@ export default {
     },
     logout() { onLogout(this.$apolloProvider.defaultClient); },
     querySelections(v) {
-      this.loading = true;
-      // Simulated ajax query
-      setTimeout(() => {
-        this.sug = this.states.filter(e => {
-          return (e || "").toLowerCase().indexOf((v || "").toLowerCase()) > -1;
-        });
-        this.loading = false;
-        this.menu = false;
-      }, 500);
+        this.loading = true;
+        // Simulated ajax query
+        setTimeout(() => {
+          this.sug = this.states.filter(e => {
+            return (e || "").toLowerCase().indexOf((v || "").toLowerCase()) > -1;
+          });
+          this.loading = false;
+          this.menu = false;
+        }, 500);
     },
+    autolog(){
+       this.$apollo.query({
+          // Query
+          query: require('../src/graphql/Status.gql')
+        }).then((data) => {
+            this.$store.state.userInfo = data.data.status;
+            this.$store.state.logged = true;
+          this.loading = false;
 
+        }).catch((err) => {
+          console.log(`failed autolog ${err}`);
+        }).finally(() => (this.loading = false));
+    },
     handleScroll() {
       if (window.scrollY > 50) {
         this.$store.commit("appbarExtHide");
@@ -340,6 +355,9 @@ export default {
       }
     },
 
+  },
+  beforeMount(){
+    this.autolog();
   },
   computed: {
     // logoReactive () {

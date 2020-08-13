@@ -1,0 +1,3 @@
+mutation ($paymentId: String, $token: String, $PayerID: String) {
+  execPay(paymentId: $paymentId, token: $token, PayerID: $PayerID)
+}

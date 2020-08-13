@@ -17,6 +17,16 @@ query products ($search: String, $category: String, $filters: [filter], $paginat
         created_at
         updated_at
         category
+        experience
+        price
+        dot
+        allow_return
+        shipping
+        worldwide
+        local
+        promotion
+        new
+        favorite
     }
   }
     

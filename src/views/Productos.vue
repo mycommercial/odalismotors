@@ -46,7 +46,10 @@
         </v-col>
         <v-col cols="12" sm="7">
 
-          <v-card elevation="1" max-height="250px" class="ma-2" v-for="product in products" :key="product.id_product">
+          <v-card elevation="0" outlined max-height="250px" class="ma-2" v-for="product in products" :key="product.id_product">
+            <span class="overline" v-if="product.promotion"> PATROCINADO </span>
+            <span class="overline" v-if="product.new && product.promotion">|</span>
+            <span class="overline" v-if="product.new"> ANUCIO NUEVO </span>
             <v-row no-gutters>
               <v-col cols="12" sm="4">
                 <v-img 
@@ -60,15 +63,44 @@
 
               <v-col cols="12" sm="8">
                 <v-row no-gutters class="pl-4">
-                  <v-col cols="12">
+                  <v-row  no-gutters>
                     <router-link :to="{name: 'viewpro',  params: { _id : product.id_product }}"  class="clear-link"><h3 class="clear-link">{{ product.name }}</h3></router-link>
+                    <v-spacer></v-spacer>
+                     <v-chip
+                      x-small
+                      color="yellow"
+                      text-color="white"
+                      v-if="product.experience"
+                      class="mx-1"
+                    >
+                    <v-icon x-small left>mdi-star</v-icon>
+                      top seller
+                    </v-chip>
+                   <v-chip
+                      x-small
+                      color="green"
+                      text-color="white"
+                      v-if="product.local"
+                      class="mx-1"
+                    >
+                    <v-icon  x-small left>mdi-truck</v-icon>
+                      envio rapido
+                    </v-chip>
+                  </v-row>
+                  <v-col cols="12">
+                    <p style="font-family: cursive;">“{{ product.description }}”</p>
                   </v-col>
-
-                  <v-col cols="3">
-                    <span class="sup" >RD$</span> <span class="price">{{ product.price }}</span><span class="sup">{{ product.pfloat }}</span> 
+                  <v-col cols="12">
+                    <span class="sup" >RD$</span> <span class="price">{{ product.price }}</span><span class="sup">{{ product.dot }}</span><span v-if="product.shipping > 0"> + {{product.shipping}} De envio</span><span v-else> + Envio gratis</span>
                   </v-col>
                   
                 </v-row>
+                <v-col cols="12" class="d-flex  justify-end">
+                    <v-btn class="my-2" :color="product.favorite ? '#DC143C' : 'blue'" text x-small @click="product.favorite = !product.favorite, favorite(product.id_product, product.favorite)">
+                <v-icon small>{{ product.favorite ? 'mdi-heart' : 'mdi-heart-outline' }}</v-icon>
+                {{ product.favorite ? 'Eliminar de favoritos' : 'Añadir a favoritos' }}
+              </v-btn>
+              </v-col>
               </v-col>
             </v-row>
           </v-card>
@@ -85,7 +117,7 @@
 
         </v-col>
         <v-col cols="12" sm="3">
-         <v-card v-for="i in 3" :key="i" outlined  height="175" width="350" class="ml-6 mt-12 mb-12 d-flex justify-center" href="http://localhost:8080/" to="/">
+         <v-card v-for="i in 3" :key="i" outlined  height="175" width="350" class="ml-6 pr-6 mt-12 mb-12 d-flex justify-center" href="http://localhost:8080/" to="/">
                 <v-list-item>
                   <v-card elevation="2" class="mr-3">
                     <v-img lazy-src="https://picsum.photos/id/11/10/6" src="./../assets/Ofertas/myc.png" height="50" width="50" contain aspect-ratio="1">
@@ -110,6 +142,7 @@
 
 <script>
 //import productos from './../simulated/products.json'
+import Login from "./../components/Login.vue";
 
 export default {
   name: 'productos',
@@ -120,6 +153,7 @@ export default {
     search: String
   },
     data: () => ({
+      chunkFav: false,
       pageinf:{
       cursor: 0,
       currentpage: 0,
@@ -187,7 +221,30 @@ export default {
         console.log(this.products);
         console.log( this.pageinf);
          
-      }
+      },
+      async favorite(ID, ADD) {
+         this.chunkFav = ADD;
+
+        if (!this.$store.state.logged) {
+          this.$emit('blurry', true);
+          this.$store.commit('populatePop', { active: true, component: Login});
+          return !this.chunkFav;
+        }
+
+        await this.$apollo.mutate({
+            // Query
+            mutation: require('../graphql/favoriteChange.gql'),
+            // Parameters
+            variables: {
+                    ID: ID,
+                    action: ADD
+                    }
+          }).then((data) => {
+            this.chunkFav = data.data.favoriteChange;
+          }).catch((error) => { console.error(error)});
+        
+        return ADD;
+      },
     },
     watch: {
       $route(to) {

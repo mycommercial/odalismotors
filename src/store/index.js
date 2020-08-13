@@ -70,7 +70,12 @@ export default new Vuex.Store({
   },
   getters: {
     cartCount(state){
-      return state.userInfo.cart.length;
+      if (state.userInfo.cart) {
+        return state.userInfo.cart.length;
+      } else {
+        return 0;
+      }
+      
     }
   }
 })

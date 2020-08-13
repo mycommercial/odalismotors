@@ -1,0 +1,3 @@
+mutation ($ID: ID, $action: Boolean) {
+  favoriteChange(ID: $ID, action: $action)
+}

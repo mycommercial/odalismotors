@@ -1,4 +1,4 @@
-query addcart ($input: JSON){
+mutation addcart ($input: JSON){
     
     addcart(input: $input)
     
