@@ -335,17 +335,20 @@ export default {
         }, 500);
     },
     autolog(){
-       this.$apollo.query({
-          // Query
-          query: require('../src/graphql/Status.gql')
-        }).then((data) => {
-            this.$store.state.userInfo = data.data.status;
-            this.$store.state.logged = true;
-          this.loading = false;
+        if (!this.$store.state.logged) {
+        this.$apollo.query({
+            // Query
+            query: require('../src/graphql/Status.gql')
+          }).then((data) => {
+              this.$store.state.userInfo = data.data.status;
+              this.$store.state.logged = true;
+              this.$router.replace(this.$router.currentRoute);
+            this.loading = false;
 
-        }).catch((err) => {
-          console.log(`failed autolog ${err}`);
-        }).finally(() => (this.loading = false));
+          }).catch((err) => {
+            console.log(`failed autolog ${err}`);
+          }).finally(() => (this.loading = false));
+        }
     },
     handleScroll() {
       if (window.scrollY > 50) {
@@ -356,7 +359,7 @@ export default {
     },
 
   },
-  beforeMount(){
+  mounted(){
     this.autolog();
   },
   computed: {
